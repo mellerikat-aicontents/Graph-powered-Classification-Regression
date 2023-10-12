@@ -22,7 +22,6 @@ git pull http://mod.lge.com/hub/dxadvtech/aicontents/biz_forecasting.git
 ## Use alov2
 
 cd alov2
-
 python main.py --config {config_path}
 
 ## Integrate with your tools
