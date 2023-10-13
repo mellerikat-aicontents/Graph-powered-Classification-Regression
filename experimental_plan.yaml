@@ -136,8 +136,9 @@ asset_source:
             # code: local
             branch: develop
             requirements:
-              - requirements.txt
               - torch==2.0.0
+              - requirements.txt
+              
 
         - step: preprocess
           source:  ## git / local 지원
