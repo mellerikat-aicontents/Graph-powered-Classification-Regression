@@ -121,6 +121,7 @@ user_parameters:
 
         - step: result
           args:
+            - result_save_name: inference_result.csv
    
 ## asset 의 설치 정보를 기록       
 asset_source:
