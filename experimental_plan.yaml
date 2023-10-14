@@ -199,6 +199,8 @@ asset_source:
           source:
             code: http://mod.lge.com/hub/smartdata/aiplatform/module/graph_db.git
             branch: develop
+            requirements:
+              - pandas==1.5.3
            
      
 control:
