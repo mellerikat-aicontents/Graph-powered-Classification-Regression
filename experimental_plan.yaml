@@ -26,13 +26,13 @@ user_parameters:
           args:       
             # Graph Type Settings
             - graph_type:                       # radial / relational , default: radial
-              center_node_column:               # graph_type을 radial(방사형)으로 설정한 경우, 중심 노드 지정 필수 중심 노드 컬럼명 (미입력시 selectivity가 가장 높은 컬럼 자동 선택)            
+              center_node_column: name              # graph_type을 radial(방사형)으로 설정한 경우, 중심 노드 지정 필수 중심 노드 컬럼명 (미입력시 selectivity가 가장 높은 컬럼 자동 선택)            
             # User Settings
-              embedding_column:                 # 임베딩 출력 컬럼 (미입력시 타겟 컬럼과 동일)
-              train_inference_column:           # train/inference 표시 컬럼명, default: 'FLAG_TRAIN_INFERENCE'
+              embedding_column: name                # 임베딩 출력 컬럼 (미입력시 타겟 컬럼과 동일)
+              train_inference_column: FLAG_TRAIN_INFERENCE          # train/inference 표시 컬럼명, default: 'FLAG_TRAIN_INFERENCE'
               drop_columns: []                  # 임베딩 제외 컬럼 리스트
-              dimension:                        # default: 256
-              num_epochs:                       # default: 10
+              dimension: 64                       # default: 256
+              num_epochs: 1                      # default: 10
               workers:                          # default: 1
               num_partitions:                   # default: 1
             # Advanced Settings
