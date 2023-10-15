@@ -5,7 +5,8 @@
 ## Getting started
 
 ```console 
-git cloen http://mod.lge.com/hub/dxadvtech/aicontents/gcr.git
+git clone http://mod.lge.com/hub/dxadvtech/aicontents/gcr.git
+cd gcr
 
 conda create -n gcr python=3.10
 conda activate gcr 
