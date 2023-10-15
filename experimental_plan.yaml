@@ -1,6 +1,6 @@
 ## 외부에서 데이터 가져오기 / 결과 저장하는 경우 해당 위치에 지정
 external_path:
-    - load_train_data_path: /nas001/users/seongwoo.kong/gcr_test_data/total/
+    - load_train_data_path: /nas001/users/seongwoo.kong/gcr_test_data/sample/
     - load_inference_data_path:
     - save_train_artifacts_path:
     - save_inference_artifacts_path:
@@ -14,10 +14,10 @@ user_parameters:
     - train_pipeline:
         - step: input  ## 필수
           args:
-            - input_path: total
+            - input_path: sample
               x_columns:
               use_all_x: True
-              y_column: LABEL_TRAIN_INFERENCE #TRAIN_LABEL" #label"
+              y_column: is_married #TRAIN_LABEL" #label"
               groupkey_columns:
               drop_columns:
               time_column:
@@ -42,7 +42,7 @@ user_parameters:
         - step: preprocess
           args:
             - handling_missing: interpolation # dropna, interpolation, fill_number
-              handling_encoding_y_column: LABEL_TRAIN_INFERENCE #TRAIN_LABEL" # y (=label)이 categorical인 경우 설정
+              handling_encoding_y_column: is_married #TRAIN_LABEL" # y (=label)이 categorical인 경우 설정
               limit_encoding_categories: 30 # onehot이나 hashing 인코딩 등을 진행 시 컬럼이 너무 많아지는 것에 대한 한계치 설정 
               load_train_preprocess: False   ## (inference workflow 전용) True 이면, train preprocess 를 참조하여 진행
         
