@@ -68,8 +68,8 @@ user_parameters:
 &emsp;&emsp;- step: input  
 &emsp;&emsp;&emsp;args:  
 &emsp;&emsp;&emsp;- *input_path*: ***train_data_folder***  # 학습 데이터가 들어있는 폴더  
-&emsp;&emsp;&emsp;&ensp;*x_columns*: ***[column1,column2]***  # 분석 데이터의 X컬럼 명  
-&emsp;&emsp;&emsp;&ensp;*y_column*: ***label***  # 분석 데이터의 Y컬럼 명  
+&emsp;&emsp;&emsp;&ensp;*use_all_x*: ***True***  # 분석 데이터의 X컬럼은 전부 사용
+&emsp;&emsp;&emsp;&ensp;*y_column*: ***is_married***  # 분석 데이터의 Y컬럼 명 예시
 &emsp;&emsp;&emsp;&ensp;...  
 
 ***
