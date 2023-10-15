@@ -62,14 +62,22 @@ python main.py --config {config_path}
 - 필수적으로 수정해야하는 ***arguments***는 아래와 같습니다. 
 ***
 external_path:  
-&emsp;- *load_train_data_path*: ***~/example/train_data_folder/***  # 학습 데이터가 들어있는 폴더 경로 입력(csv 입력 X) 
+&emsp;- *load_train_data_path*: ***~/example/sample_data_dir/***    # 데이터가 들어있는 폴더 경로
+
 user_parameters:  
+
 &emsp;- train_pipeline:  
-&emsp;&emsp;- step: input  
-&emsp;&emsp;&emsp;args:  
+
+&emsp;&emsp;- step: input 
+
+&emsp;&emsp;&emsp;args: 
+
 &emsp;&emsp;&emsp;- *input_path*: ***train_data_folder***    # 학습 데이터가 들어있는 폴더
+
 &emsp;&emsp;&emsp;&ensp;*use_all_x*: ***True***              # 분석 데이터의 X컬럼은 전부 사용
-&emsp;&emsp;&emsp;&ensp;*y_column*: ***is_married***         # 분석 데이터의 Y컬럼 명 예시
+
+&emsp;&emsp;&emsp;&ensp;*y_column*: ***is_married***         # 분석 데이터의 Y컬럼(Label) 명 예시
+
 &emsp;&emsp;&emsp;&ensp;...  
 
 ***
