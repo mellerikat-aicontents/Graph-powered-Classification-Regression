@@ -25,36 +25,26 @@ user_parameters:
         - step: graph ## 필수
           args:       
             # Graph Type Settings
-            - graph_type: radial               # radial / relational                          
-              center_node_column: Lead_No      # graph_type을 radial(방사형)으로 설정한 경우, 중심 노드 지정 필수 중심 노드 컬럼명 (미입력시 첫번째 컬럼 대상 임베딩)            
+            - graph_type:                       # radial / relational , default: radial
+              center_node_column:               # graph_type을 radial(방사형)으로 설정한 경우, 중심 노드 지정 필수 중심 노드 컬럼명 (미입력시 selectivity가 가장 높은 컬럼 자동 선택)            
             # User Settings
-              train_inference_label_column: FLAG_TRAIN_INFERENCE
-              drop_columns: [historical_existing_cnt_original,historical_total_cnt_original,lead_desc_length_original]             # 임베딩 제외 컬럼 (미입력시 전체 데이터 사용)
-              embedding_column: Lead_No            # 임베딩 출력 컬럼 (미입력시 타겟 컬럼과 동일)
-              dimension: 128
-              num_epochs: 1
-              workers: 1
-              num_partitions: 1
+              embedding_column:                 # 임베딩 출력 컬럼 (미입력시 타겟 컬럼과 동일)
+              train_inference_column:           # train/inference 표시 컬럼명, default: 'FLAG_TRAIN_INFERENCE'
+              drop_columns: []                  # 임베딩 제외 컬럼 리스트
+              dimension:                        # default: 256
+              num_epochs:                       # default: 10
+              workers:                          # default: 1
+              num_partitions:                   # default: 1
             # Advanced Settings
-              extra_columns_for_ml: [historical_existing_cnt_original]
-              custom_connection: [[Timeline_indexing, Title_indexing, True]]           # connection_tup = [(lhs, rhs, rename_boolean)] , if rename_boolean=True -> change lhs name to rhs name
+              extra_columns_for_ml: []          # ML 추가 학습 column, Numerical Column만 가능
+              custom_connection: []             # format[[lhs1, rhs1, rename_boolean1], [lhs2, rhs2, rename_boolean2], ...] , if rename_boolean=True -> change lhs name to rhs name
 
         - step: preprocess
           args:
             - handling_missing: interpolation # dropna, interpolation, fill_number
-              #handling_outlier_x: none        #none, distribution, spec_limit, specout_drop, exponential
-              #handling_scaling_x: none  #none"         #none, standard, minmax, abs, robust
-              handling_encoding_x_columns: #Budget Actual,Business Unit" # categorical columns 
               handling_encoding_y_column: LABEL_TRAIN_INFERENCE #TRAIN_LABEL" # y (=label)이 categorical인 경우 설정
-              #handling_encoding_x: none #onehot"    ## none, label, ordinal, binary, onehot, hashing
-              handling_encoding_y: none    ## none, label, ordinal, binary, onehot, hashing
               limit_encoding_categories: 30 # onehot이나 hashing 인코딩 등을 진행 시 컬럼이 너무 많아지는 것에 대한 한계치 설정 
-              #handling_imputer_x: none #mean"  ## none, mean, median, most_frequent
-              #handling_imputer_y: none  ## none, mean, median, most_frequent
-              drop_duplicate_time: True   ## group 단위로 중복 확인 (time_column 없으면 미진행)
               load_train_preprocess: False   ## (inference workflow 전용) True 이면, train preprocess 를 참조하여 진행
-              handling_downsampling_interval: 0   ## 0, 1, 2,... (0 이면 사용하지 않음)
-              downsampling_method: median #first"   ## first, last, mean, median 
         
         - step: sampling
           args:
@@ -74,7 +64,7 @@ user_parameters:
             - model_type: classification ## supproted list: classification, regression
               data_split_method: cross_validate # supproted list: cross_validate, train_test_split
               evaluation_metric: accuracy ## classification: accuracy, precision, recall, f1-score
-              model_list: [lgb, rf, gbm, cb] # 알고리즘 선택(param_range를 사용할 경우, classification의 경우 rf, gbm, lgb, cb만 가능)
+              model_list: [lgb] #, rf, gbm, cb] # 알고리즘 선택(param_range를 사용할 경우, classification의 경우 rf, gbm, lgb, cb만 가능)
               num_hpo: 3 # HPO 개수 설정, 0 인 경우 하기 설정을 무시하고 위에서 선택한 알고리즘에 대해서 default로 실행됨
               param_range: {
                 rf: {max_depth: 6, n_estimators: [300, 500]},
@@ -101,19 +91,9 @@ user_parameters:
         - step: preprocess
           args:
             - handling_missing: interpolation
-              #handling_outlier_x: none        #none, distribution, spec_limit, specout_drop, exponential
-              #handling_scaling_x: none  #none"         #none, standard, minmax, abs, robust
-              handling_encoding_x_columns: #Budget Actual,Business Unit" # categorical columns 
               handling_encoding_y_column:  #TRAIN_LABEL" # y (=label)이 categorical인 경우 설정
-              #handling_encoding_x: none #onehot"    ## none, label, ordinal, binary, onehot, hashing
-              handling_encoding_y: none    ## none, label, ordinal, binary, onehot, hashing
-              limit_encoding_categories: 30 # onehot이나 hashing 인코딩 등을 진행 시 컬럼이 너무 많아지는 것에 대한 한계치 설정 
-              #handling_imputer_x: none #mean"  ## none, mean, median, most_frequent
-              #handling_imputer_y: none  ## none, mean, median, most_frequent
-              drop_duplicate_time: True   ## group 단위로 중복 확인 (time_column 없으면 미진행)
+              limit_encoding_categories: 30 # onehot이나 hashing 인코딩 등을 진행 시 컬럼이 너무 많아지는 것에 대한 한계치 설정
               load_train_preprocess: True   ## (inference workflow 전용) True 이면, train preprocess 를 참조하여 진행
-              handling_downsampling_interval: 0   ## 0, 1, 2,... (0 이면 사용하지 않음)
-              downsampling_method: median #first"   ## first, last, mean, median 
 
         - step: inference ## 필수
           args:
@@ -121,7 +101,7 @@ user_parameters:
 
         - step: result
           args:
-            - result_save_name: inference_result.csv
+            - result_save_name:               # result save file name, default: inference_result.csv
    
 ## asset 의 설치 정보를 기록       
 asset_source:
