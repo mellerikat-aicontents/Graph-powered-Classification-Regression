@@ -79,7 +79,7 @@ user_parameters:
 
 
 ## Sample notebook
-Jupyter 환경에서 Workflow 단계마다 asset을 실행하고 setting을 바꿔 실험할 수 있습니다. [Sample notebook](http://mod.lge.com/hub/dxadvtech/aicontents/tcr/-/blob/main/TCR_asset_run_template.ipynb)
+Jupyter 환경에서 Workflow 단계마다 asset을 실행하고 setting을 바꿔 실험할 수 있습니다. [Sample notebook](http://mod.lge.com/hub/dxadvtech/aicontents/gcr/-/blob/main/GCR_asset_run_template.ipynb)
 
 ## 관련 Collab
 [AICONTENTS](http://collab.lge.com/main/display/AICONTENTS)
@@ -87,6 +87,6 @@ Jupyter 환경에서 Workflow 단계마다 asset을 실행하고 setting을 바�
 ## 요청 및 문의
 담당자: seongwoo.kong@lge.com  
 신규 AI Contents나 추가 기능 요청을 등록하시면 검토 후 반영합니다  
-[Request CLM](http:/링크)
+[Request CLM](http://clm.lge.com/issue/projects/AICONTENTS/summary)
 
 
