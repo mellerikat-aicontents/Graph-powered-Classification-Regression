@@ -81,7 +81,7 @@ user_parameters:
 &emsp;&emsp;&emsp;&ensp;...  
 
 ***
-- Graph 구조 선택, 학습 param 설정 및 Sampling, TCR asset의 다양한 기능을 사용하고 싶으신 경우 [User Guide (GCR)](http://collab.lge.com/main/pages/viewpage.action?pageId=2178788969)를 참고하여 yaml파일을 수정하시면 됩니다. 
+- Graph 구조 선택, 학습 param 설정 및 GCR asset의 다양한 기능을 사용하고 싶으신 경우 [User Guide (GCR)](http://collab.lge.com/main/pages/viewpage.action?pageId=2178788969)를 참고하여 yaml파일을 수정하시면 됩니다. 
 - 임베딩 결과 파일 저장 경로: `alo/.train_artifacts/output/graph/`
 - 추론 결과 파일 저장 경로: `alo/.inference_artifacts/output/result/`
 
