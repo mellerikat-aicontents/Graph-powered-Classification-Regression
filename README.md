@@ -20,7 +20,8 @@
 
 데이터 준비를 위한 상세한 내용은 [User Guide](http://collab.lge.com/main/pages/viewpage.action?pageId=2184972859#UserGuide(GCR)-|GCR%EC%9A%A9%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%A4%80%EB%B9%84)를 참고해주세요.
 
-샘플 데이터 설명: [Bolt Fastening inspection](http://collab.lge.com/main/pages/viewpage.action?pageId=1965439195&src=sidebar)
+샘플 데이터: [Customer 샘플 데이터](https://www.slingacademy.com/article/customers-sample-data-csv-json-xml-and-xlsx/#customerscsv)
+샘플 데이터 예시: [예시](http://collab.lge.com/main/pages/viewpage.action?pageId=2184972864)
  
 
 
