@@ -119,7 +119,7 @@ asset_source:
           source:
             code: http://mod.lge.com/hub/smartdata/aiplatform/module/graph_db.git
             # code: local
-            branch: main
+            branch: gcr
             requirements:
               - torch==2.0.0
               - requirements.txt
@@ -180,7 +180,7 @@ asset_source:
         - step: result
           source:
             code: http://mod.lge.com/hub/smartdata/aiplatform/module/graph_db.git
-            branch: main
+            branch: gcr
             requirements:
               - pandas==1.5.3
            
