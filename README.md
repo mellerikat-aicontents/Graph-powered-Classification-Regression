@@ -55,7 +55,7 @@ source install.sh
 - 아래 코드 블럭의 `{config_path}`에 원하는 설정 파일을 지정하여 실행하면 됩니다. default: `experimental_plan.yaml`
 ```
 cd alo
-python main.py --config {config_path}
+python main.py
 ```
 - GCR 구동을 위해서는 분석 데이터에 대한 정보 및 사용할 GCR 기능이 기록된 yaml파일이 필요합니다.  
 - GCR default yaml파일인 `experimental_plan.yaml`의 argument를 변경하여 데이터에 GCR을 적용할 수 있습니다.
