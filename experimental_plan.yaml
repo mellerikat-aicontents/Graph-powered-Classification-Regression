@@ -43,6 +43,7 @@ user_parameters:
           args:
             - handling_missing: interpolation # dropna, interpolation, fill_number
               handling_encoding_y_column: is_married #TRAIN_LABEL" # y (=label)이 categorical인 경우 설정
+              handling_encoding_y: label    ## none, label, ordinal, binary, onehot, hashing
               limit_encoding_categories: 30 # onehot이나 hashing 인코딩 등을 진행 시 컬럼이 너무 많아지는 것에 대한 한계치 설정 
               load_train_preprocess: False   ## (inference workflow 전용) True 이면, train preprocess 를 참조하여 진행
         
@@ -118,7 +119,7 @@ asset_source:
           source:
             code: http://mod.lge.com/hub/smartdata/aiplatform/module/graph_db.git
             # code: local
-            branch: develop
+            branch: main
             requirements:
               - torch==2.0.0
               - requirements.txt
@@ -179,7 +180,7 @@ asset_source:
         - step: result
           source:
             code: http://mod.lge.com/hub/smartdata/aiplatform/module/graph_db.git
-            branch: develop
+            branch: main
             requirements:
               - pandas==1.5.3
            
