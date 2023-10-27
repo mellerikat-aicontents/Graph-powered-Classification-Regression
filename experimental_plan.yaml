@@ -170,9 +170,9 @@ asset_source:
 
         - step: inference
           source:
-            code: http://mod.lge.com/hub/dxadvtech/assets/tcr.git
+            code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/inference.git
             # code: local
-            branch: tcr_v1.0.0
+            branch: tcr
             requirements:
               - pandas==1.5.3
               
