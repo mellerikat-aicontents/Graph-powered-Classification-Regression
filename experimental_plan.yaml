@@ -21,7 +21,7 @@ user_parameters:
               groupkey_columns:
               drop_columns:
               time_column:
-        
+          
         - step: graph ## 필수
           args:       
             # Graph Type Settings
@@ -38,6 +38,7 @@ user_parameters:
             # Advanced Settings
               extra_columns_for_ml: []          # ML 추가 학습 column, Numerical Column만 가능
               custom_connection: []             # format[[lhs1, rhs1, rename_boolean1], [lhs2, rhs2, rename_boolean2], ...] , if rename_boolean=True -> change lhs name to rhs name
+
 
         - step: preprocess
           args:
@@ -65,8 +66,8 @@ user_parameters:
             - model_type: classification ## supproted list: classification, regression
               data_split_method: cross_validate # supproted list: cross_validate, train_test_split
               evaluation_metric: accuracy ## classification: accuracy, precision, recall, f1-score
-              model_list: [lgb, rf, gbm, cb] # 알고리즘 선택(param_range를 사용할 경우, classification의 경우 rf, gbm, lgb, cb만 가능)
-              num_hpo: 3 # HPO 개수 설정, 0 인 경우 하기 설정을 무시하고 위에서 선택한 알고리즘에 대해서 default로 실행됨
+              model_list: [lgb, rf, cb] # 알고리즘 선택(param_range를 사용할 경우, classification의 경우 rf, gbm, lgb, cb만 가능)
+              num_hpo: 3 # HPO 횟수 설정, 0 인 경우 하기 설정을 무시하고 위에서 선택한 알고리즘에 대해서 default로 실행됨
               param_range: {
                 rf: {max_depth: 6, n_estimators: [300, 500]},
                 gbm: {max_depth: [5, 7], n_estimators: [300, 500]},
@@ -123,7 +124,6 @@ asset_source:
             requirements:
               - torch==2.0.0
               - requirements.txt
-              
 
         - step: preprocess
           source:  ## git / local 지원
@@ -131,12 +131,12 @@ asset_source:
             # code: local
             branch: tcr 
             requirements:
-              - category_encoders
               - pandas==1.5.3
+              - category_encoders
 
         - step: sampling
           source:
-            code: http://mod.lge.com/hub/smartdata/aiplatform/module/data_sampling.git
+            code: http://mod.lge.com/hub/dxadvtech/assets/sampling.git
             # code: local
             branch: main
             requirements:
@@ -144,26 +144,25 @@ asset_source:
 
         - step: train
           source:
-            code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/train.git
+            code: http://mod.lge.com/hub/dxadvtech/assets/tcr.git
             # code: local
-            branch: tcr
+            branch: tcr_v1.0.1
             requirements:
               - requirements.txt 
               - numpy==1.25.2 --force-reinstall 
-              
    
     - inference_pipeline:
         - step: input
           source:  ## git / local 지원
-            code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/input.git
-            # code: local
+           # code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/input.git
+            code: local
             branch: tabular
             requirements:
               - pandas==1.5.3
 
         - step: preprocess
           source:  ## git / local 지원
-            # code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/preprocess.git
+           # code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/preprocess.git
             code: local
             branch: tcr
             requirements:
@@ -171,19 +170,19 @@ asset_source:
 
         - step: inference
           source:
-            code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/inference.git
+            code: http://mod.lge.com/hub/dxadvtech/assets/tcr.git
             # code: local
-            branch: tcr
+            branch: tcr_v1.0.1
             requirements:
               - pandas==1.5.3
-        
+              
         - step: result
           source:
-            code: http://mod.lge.com/hub/smartdata/aiplatform/module/graph_db.git
+            #code: http://mod.lge.com/hub/smartdata/aiplatform/module/graph_db.git
+            code: local
             branch: gcr
             requirements:
               - pandas==1.5.3
-           
      
 control:
     ## 1. 패키지 설치 및 asset 존재 여부를 실험 시마다 체크할지, 한번만 할지 결정
