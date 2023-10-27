@@ -85,7 +85,7 @@ user_parameters:
             - input_path: inference
               x_columns: 
               use_all_x: true
-              y_column:  #TRAIN_LABEL" #label"
+              y_column: #TRAIN_LABEL" #label"
               groupkey_columns:
               drop_columns:
               time_column:
@@ -146,7 +146,7 @@ asset_source:
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/tcr.git
             # code: local
-            branch: tcr_v1.0.1
+            branch: tcr_v1.0.0
             requirements:
               - requirements.txt 
               - numpy==1.25.2 --force-reinstall 
@@ -172,7 +172,7 @@ asset_source:
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/tcr.git
             # code: local
-            branch: tcr_v1.0.1
+            branch: tcr_v1.0.0
             requirements:
               - pandas==1.5.3
               
