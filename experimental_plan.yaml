@@ -118,9 +118,9 @@ asset_source:
         
         - step: graph
           source:
-            code: http://mod.lge.com/hub/smartdata/aiplatform/module/graph_db.git
+            code: http://mod.lge.com/hub/dxadvtech/assets/gfe.git
             # code: local
-            branch: gcr
+            branch: release-1.1
             requirements:
               - torch==2.0.0
               - requirements.txt
@@ -178,8 +178,8 @@ asset_source:
               
         - step: result
           source:
-            code: http://mod.lge.com/hub/smartdata/aiplatform/module/graph_db.git
-            branch: gcr
+            code: http://mod.lge.com/hub/dxadvtech/assets/gfe.git
+            branch: release-1.1
             requirements:
               - pandas==1.5.3
      
