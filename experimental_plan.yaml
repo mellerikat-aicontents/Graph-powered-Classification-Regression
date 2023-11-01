@@ -112,7 +112,7 @@ asset_source:
           source:  ## git / local 지원
             code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/input.git
             # code: local
-            branch: tabular
+            branch: tabular_2.0
             requirements:
               - pandas==1.5.3
         
@@ -120,7 +120,7 @@ asset_source:
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/gfe.git
             # code: local
-            branch: release-1.1
+            branch: release-1.2
             requirements:
               - torch==2.0.0
               - requirements.txt
@@ -129,7 +129,7 @@ asset_source:
           source:  ## git / local 지원
             code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/preprocess.git
             # code: local
-            branch: tcr 
+            branch: release-1.2
             requirements:
               - pandas==1.5.3
               - category_encoders
@@ -138,7 +138,7 @@ asset_source:
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/sampling.git
             # code: local
-            branch: main
+            branch: release-1.2
             requirements:
               - requirements.txt 
 
@@ -146,7 +146,7 @@ asset_source:
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/tcr.git
             # code: local
-            branch: tcr_v1.0.0
+            branch: tcr_v1.0.2
             requirements:
               - requirements.txt 
               - numpy==1.25.2 --force-reinstall 
@@ -156,7 +156,7 @@ asset_source:
           source:  ## git / local 지원
            # code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/input.git
             code: local
-            branch: tabular
+            branch: tabular_2.0
             requirements:
               - pandas==1.5.3
 
@@ -164,22 +164,22 @@ asset_source:
           source:  ## git / local 지원
            # code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/preprocess.git
             code: local
-            branch: tcr
+            branch: release-1.2
             requirements:
               - pandas==1.5.3
 
         - step: inference
           source:
-            code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/inference.git
+            code: http://mod.lge.com/hub/dxadvtech/assets/tcr.git
             # code: local
-            branch: tcr
+            branch: tcr_v1.0.2
             requirements:
               - pandas==1.5.3
               
         - step: result
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/gfe.git
-            branch: release-1.1
+            branch: release-1.2
             requirements:
               - pandas==1.5.3
      
