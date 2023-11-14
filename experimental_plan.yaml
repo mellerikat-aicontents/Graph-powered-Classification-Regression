@@ -1,3 +1,6 @@
+## 해당 파일에서 기술하기에 힘든 내용의 자세한 설명은 아래 user guide 참조 하시길 바랍니다.
+## http://collab.lge.com/main/pages/viewpage.action?pageId=2184972859
+
 ## 외부에서 데이터 가져오기 / 결과 저장하는 경우 해당 위치에 지정
 external_path:
     - load_train_data_path: /nas001/users/seongwoo.kong/gcr_test_data/sample/
@@ -14,10 +17,10 @@ user_parameters:
     - train_pipeline:
         - step: input  ## 필수
           args:
-            - input_path: sample
-              x_columns:
-              use_all_x: True
-              y_column: is_married #TRAIN_LABEL" #label"
+            - input_path: sample # external_path의 load_train_data_path의 최하위 디렉토리 명 입력
+              x_columns: # 그래프 구성에 사용할 x컬럼 지정
+              use_all_x: True # 데이터의 모든 x컬럼을 사용할 경우 True로 입력 / True, False
+              y_column: is_married # Label에 해당하는 컬럼 지정
               groupkey_columns:
               drop_columns:
               time_column:
@@ -28,49 +31,49 @@ user_parameters:
         - step: graph ## 필수
           args:       
             # Graph Type Settings
-            - graph_type:                       # radial / relational , default: radial
-              center_node_column: name              # graph_type을 radial(방사형)으로 설정한 경우, 중심 노드 컬럼 지정 필수 (미입력시 selectivity가 가장 높은 컬럼 자동 선택)            
+            - graph_type:                       # radial/relational(방사형/관계형) 중 선택 , default: radial
+              center_node_column: name         # 이름, ID등 나머지 정보들을 대표할 수 있는 컬럼을 중심 노드로 방사형 구조 그래프 설계 / default: 고유값이 가장 많은 컬럼 자동 선택(ex Customer_ID)          
             # User Settings
-              embedding_column: name                # 임베딩 출력 컬럼 (미입력시 center_node_column과 동일)
-              train_inference_column: FLAG_TRAIN_INFERENCE          # train/inference 표시 컬럼명, default: 'FLAG_TRAIN_INFERENCE'
-              drop_columns: []                  # 임베딩 제외 컬럼 리스트
-              dimension: 64                       # default: 256
-              num_epochs: 1                      # default: 10
-              workers:                          # default: 1
-              num_partitions:                   # default: 1
+              embedding_column: name               # 임베딩 대상 컬럼 (미입력시 타겟 컬럼과 동일) / default: 중심 노드 컬럼 (center_node_column)
+              train_inference_column: FLAG_TRAIN_INFERENCE          # train 데이터와 inference 데이터를 구분해주는 컬럼 명 / default: FLAG_TRAIN_INFERENCE
+              drop_columns: []                # 그래프 임베딩 제외 대상 컬럼(ex, label 컬럼)
+              dimension: 64                 # 임베딩 차원 (dimension > 1 & 짝수)/ default: 256
+              num_epochs: 1                      # 그래프 학습 epoch 수 / default: 10
+              workers:                          # process 수 / default: 1
+              num_partitions:                   # node partition 수, 데이터가 큰 경우 partition을 늘려 메모리 사용량 감소 / default: 1 
             # Advanced Settings
-              extra_columns_for_ml: []          # ML 추가 학습 column, Numerical Column만 가능
+              extra_columns_for_ml: []          # ML 모델 학습을 위해 임베딩 벡터 이외에 추가할 원본 데이터의 컬럼 리스트, Numerical Column만 가능
               custom_connection: []             # format[[lhs1, rhs1, rename_boolean1], [lhs2, rhs2, rename_boolean2], ...] , if rename_boolean=True -> change lhs name to rhs name
 
 
         - step: preprocess
           args:
-            - handling_missing: interpolation # dropna, interpolation, fill_number
-              handling_encoding_y_column: is_married #TRAIN_LABEL" # y (=label)이 categorical인 경우 설정
+            - handling_missing: interpolation # 숫자형 결측치 처리 방법 설정 (interpolation, fill_number, dropna)
+              handling_encoding_y_column: is_married # 인코딩을 적용할 y컬럼 설정 (input asset의 y_column과 동일하게 설정)
               handling_encoding_y: label    ## none, label, ordinal, binary, onehot, hashing
-              handling_scaling_x: none  #none"         #none, standard, minmax, abs, robust
+              handling_scaling_x: none  # onehot이나 hashing 인코딩 등을 진행 시 컬럼이 너무 많아지는 것에 대한 한계치 설정 
               load_train_preprocess: False   ## (inference workflow 전용) True 이면, train preprocess 를 참조하여 진행
         
         - step: sampling
           args:
-            - sampling_type: none # none(실행안함) ,under(under sampling), over(over_sampilng - TBD)
-              sampling_method: negative # random(random sampling), cluster(density based clustering sampling), negative(negative sampling)
-              label_sampling: True # label 별 sampling 여부 선택 True, False
-              ignore_label_class: # 특정 클래스에 있는 데이터 전부 사용. cat or cat,dog
+            - sampling_type: none # sampling 여부 / none(실행안함) ,under(under sampling), over(over_sampilng - TBD)
+              sampling_method: negative # sampling 방식 설정 / random(random sampling), cluster(density based clustering sampling), negative(negative sampling)
+              label_sampling: True # label 별 sampling 여부 선택 ex) 비율이 높은 라벨만 undersampling
+              ignore_label_class: 1 # sampling 제외 라벨
               negative_target_class: # negative sampling 시 target이 되는 class
-              label_sampling_num_type:  # ratio, number, compare, mingroup
-              label_sampling_num: {1: 1, 0: 25}
+              label_sampling_num_type: compare # sample 수 결정 방식 (ratio, number, compare, mingroup)
+              label_sampling_num: {1: 1, 0: 25} # 자세한 내용은 user guide 참조
               sampling_groupkey_columns: # groupkey 컬럼 입력. 3개 까지 지원
               sampling_num_type: # ratio, number, mingroup
-              sampling_num:
+              sampling_num: 
         
         - step: train ## 필수
           args:
-            - model_type: classification ## supproted list: classification, regression
-              data_split_method: cross_validate # supproted list: cross_validate, train_test_split
-              evaluation_metric: accuracy ## classification: accuracy, precision, recall, f1-score
+            - model_type: classification ## classification / regression (task의 목적에 맞게 입력)
+              data_split_method: cross_validate # hyper parameter optimization을 위한 data 분할 방식 / (cross_validate, train_test_split)
+              evaluation_metric: accuracy ## classification: accuracy, precision, recall, f1-score / regression: mse, r2, mae, rmse
               model_list: [lgb, rf, cb] # 알고리즘 선택(param_range를 사용할 경우, classification의 경우 rf, gbm, lgb, cb만 가능)
-              num_hpo: 3 # HPO 횟수 설정, 0 인 경우 하기 설정을 무시하고 위에서 선택한 알고리즘에 대해서 default로 실행됨
+              num_hpo: 3 # HPO 개수 설정, 0 인 경우 하기 설정을 무시하고 위에서 선택한 알고리즘에 대해서 default로 실행됨
               param_range: {
                 rf: {max_depth: 6, n_estimators: [300, 500]},
                 gbm: {max_depth: [5, 7], n_estimators: [300, 500]},
@@ -79,7 +82,9 @@ user_parameters:
                 cb: {max_depth:[5, 9], n_estimators:[100, 500]},
               } # 탐색하고 싶은 parameter [min, max] 설정, 숫자만 입력할 경우 해당 parameter는 고정됨
               ## num_hpo=3, max_depth=[1, 3]인 경우 hpo 과정에서 max_depth가 1, 2, 3인 경우에 대해 실행됨.(소수점인 경우 integer로 실행)
-              shap_ratio: 1
+              shap_ratio: 1. 
+              # train시 shap value 뽑을 데이터를 sampling하는 비율
+              # 1로 입력하면, train 데이터 전체에 대해 shap value가 출력 됩니다. 단, 학습 시간이 크게 소요됩니다.
    
     - inference_pipeline:
         - step: input  ## 필수
@@ -104,7 +109,6 @@ user_parameters:
         - step: inference ## 필수
           args:
             - model_type: classification
-              run_shapley: False
 
         - step: result
           args:
@@ -151,7 +155,7 @@ asset_source:
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/tcr.git
             # code: local
-            branch: tcr_v1.1.2
+            branch: tcr_v1.1.0
             requirements:
               - requirements.txt 
               - numpy==1.25.2 --force-reinstall 
@@ -177,7 +181,7 @@ asset_source:
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/tcr.git
             # code: local
-            branch: tcr_v1.1.2
+            branch: tcr_v1.1.0
             requirements:
               - pandas==1.5.3
               
