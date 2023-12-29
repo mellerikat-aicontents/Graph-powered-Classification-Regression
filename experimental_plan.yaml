@@ -44,6 +44,7 @@ user_parameters:
             # Advanced Settings
               extra_columns_for_ml: []          # ML 모델 학습을 위해 임베딩 벡터 이외에 추가할 원본 데이터의 컬럼 리스트, Numerical Column만 가능
               custom_connection: []             # format[[lhs1, rhs1, rename_boolean1], [lhs2, rhs2, rename_boolean2], ...] , if rename_boolean=True -> change lhs name to rhs name
+              use_gpu:                          # Graph Embedding 학습시 GPU 사용여부(True/False), default: False
 
 
         - step: preprocess
