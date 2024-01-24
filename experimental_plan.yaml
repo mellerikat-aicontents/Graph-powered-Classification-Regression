@@ -3,8 +3,8 @@
 
 ## 외부에서 데이터 가져오기 / 결과 저장하는 경우 해당 위치에 지정
 external_path:
-    - load_train_data_path: /ssd_data/jw0220_ssd/alo_data/adult_income/
-    - load_inference_data_path: /ssd_data/jw0220_ssd/alo_data/inference/
+    - load_train_data_path: /nas001/users/jw0220.kim/gcr_test_data/adult_income/
+    - load_inference_data_path: /nas001/users/jw0220.kim/gcr_test_data/inference/
     - save_train_artifacts_path:
     - save_inference_artifacts_path:
 
