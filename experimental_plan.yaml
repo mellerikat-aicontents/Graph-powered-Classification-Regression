@@ -104,7 +104,6 @@ user_parameters:
           args:
             - embedding_column: ID
             - drop_columns:
-            - num_partitions:
               
         - step: preprocess
           args:
