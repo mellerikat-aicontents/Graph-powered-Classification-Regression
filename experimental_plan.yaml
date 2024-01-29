@@ -35,7 +35,6 @@ user_parameters:
               center_node_column: ID        # 이름, ID등 나머지 정보들을 대표할 수 있는 컬럼을 중심 노드로 방사형 구조 그래프 설계 / default: 고유값이 가장 많은 컬럼 자동 선택(ex Customer_ID)          
             # User Settings
               embedding_column:        ID         # 임베딩 대상 컬럼 / default: 중심 노드 컬럼 (center_node_column)
-              train_inference_column:           # train 데이터와 inference 데이터를 구분해주는 컬럼 명 / default: FLAG_TRAIN_INFERENCE
               drop_columns: []                  # 그래프 임베딩 제외 대상 컬럼(ex, label 컬럼)
               dimension:   128                   # 임베딩 차원 (dimension > 1 & 짝수)/ default: 256
               num_epochs:     1                  # 그래프 학습 epoch 수 / default: 10
