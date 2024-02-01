@@ -28,22 +28,16 @@ user_parameters:
               encoding:             # cp949
 
           
-        - step: train1 ## 필수
+        - step: train1 ## graph train
           args:       
-            # Graph Type Settings
-            - graph_type:                       # radial/relational(방사형/관계형) 중 선택 , default: radial
-              center_node_column: ID        # 이름, ID등 나머지 정보들을 대표할 수 있는 컬럼을 중심 노드로 방사형 구조 그래프 설계 / default: 고유값이 가장 많은 컬럼 자동 선택(ex Customer_ID)          
+            - center_node_column: ID        # 이름, ID등 나머지 정보들을 대표할 수 있는 컬럼을 중심 노드로 방사형 구조 그래프 설계 / default: 고유값이 가장 많은 컬럼 자동 선택(ex Customer_ID)          
             # User Settings
               embedding_column: ID         # 임베딩 대상 컬럼 / default: 중심 노드 컬럼 (center_node_column)
-              drop_columns: []                  # 그래프 임베딩 제외 대상 컬럼(ex, label 컬럼)
               dimension: 128                   # 임베딩 차원 (dimension > 1 & 짝수)/ default: 256
               num_epochs: 1                  # 그래프 학습 epoch 수 / default: 10
-              workers:                          # process 수 / default: 1
               num_partitions:                   # node partition 수, 데이터가 큰 경우 partition을 늘려 메모리 사용량 감소 / default: 1 
             # Advanced Settings
-              custom_connection: []             # format[[lhs1, rhs1, rename_boolean1], [lhs2, rhs2, rename_boolean2], ...] , if rename_boolean=True -> change lhs name to rhs name
               use_gpu:                          # Graph Embedding 학습시 GPU 사용여부(True/False), default: False
-
 
         - step: preprocess
           args:
@@ -52,19 +46,6 @@ user_parameters:
               handling_encoding_y: label              # none, label, ordinal, binary, onehot, hashing
               handling_scaling_x: none                # onehot이나 hashing 인코딩 등을 진행 시 컬럼이 너무 많아지는 것에 대한 한계치 설정 
               load_train_preprocess: False            # (inference workflow 전용) True 이면, train preprocess 를 참조하여 진행
-        
-        - step: sampling
-          args:
-            - sampling_type: none                      # sampling 여부 / none(실행안함) ,under(under sampling), over(over_sampilng - TBD)
-              sampling_method: negative                # sampling 방식 설정 / random(random sampling), cluster(density based clustering sampling), negative(negative sampling)
-              label_sampling: True                     # label 별 sampling 여부 선택 ex) 비율이 높은 라벨만 undersampling
-              ignore_label_class: 1                    # sampling 제외 라벨
-              negative_target_class:                   # negative sampling 시 target이 되는 class
-              label_sampling_num_type: compare         # sample 수 결정 방식 (ratio, number, compare, mingroup)
-              label_sampling_num: {1: 1, 0: 25}        # 자세한 내용은 user guide 참조
-              sampling_groupkey_columns:               # groupkey 컬럼 입력. 3개 까지 지원
-              sampling_num_type:                       # ratio, number, mingroup
-              sampling_num: 
         
         - step: train2 ## 필수
           args:
@@ -98,9 +79,8 @@ user_parameters:
               concat_dataframes:
               encoding: # cp949 
 
-        - step: inference1
+        - step: inference1 # graph inference
           args:
-            - embedding_column: ID # 임베딩 대상 컬럼 / default: 중심 노드 컬럼 (center_node_column) / 미 입력시 rhs로 지정
               
         - step: preprocess
           args:
@@ -146,14 +126,6 @@ asset_source:
             requirements:
               - pandas==1.5.3
               - category_encoders
-
-        - step: sampling
-          source:
-            code: http://mod.lge.com/hub/dxadvtech/assets/sampling.git
-            # code: local
-            branch: spl_v1.2.0
-            requirements:
-              - requirements.txt 
 
         - step: train2
           source:
