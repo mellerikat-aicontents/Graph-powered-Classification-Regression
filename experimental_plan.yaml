@@ -41,7 +41,6 @@ user_parameters:
               workers:                          # process 수 / default: 1
               num_partitions:                   # node partition 수, 데이터가 큰 경우 partition을 늘려 메모리 사용량 감소 / default: 1 
             # Advanced Settings
-              extra_columns_for_ml: []          # ML 모델 학습을 위해 임베딩 벡터 이외에 추가할 원본 데이터의 컬럼 리스트, Numerical Column만 가능
               custom_connection: []             # format[[lhs1, rhs1, rename_boolean1], [lhs2, rhs2, rename_boolean2], ...] , if rename_boolean=True -> change lhs name to rhs name
               use_gpu:                          # Graph Embedding 학습시 GPU 사용여부(True/False), default: False
 
@@ -92,7 +91,7 @@ user_parameters:
             - input_path: inference
               x_columns: 
               use_all_x: true
-              y_column:  #TRAIN_LABEL" #label"
+              y_column: 
               groupkey_columns:
               drop_columns:
               time_column:
@@ -101,12 +100,12 @@ user_parameters:
 
         - step: inference1
           args:
-            - embedding_column: ID
+            - embedding_column: ID # 임베딩 대상 컬럼 / default: 중심 노드 컬럼 (center_node_column) / 미 입력시 rhs로 지정
               
         - step: preprocess
           args:
             - handling_missing: interpolation
-              handling_encoding_y_column:  #TRAIN_LABEL" # y (=label)이 categorical인 경우 설정
+              handling_encoding_y_column:  
               limit_encoding_categories: 30 # onehot이나 hashing 인코딩 등을 진행 시 컬럼이 너무 많아지는 것에 대한 한계치 설정
               load_train_preprocess: True   ## (inference workflow 전용) True 이면, train preprocess 를 참조하여 진행
 
