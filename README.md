@@ -48,7 +48,6 @@ pip install -r requirements.txt
 cd gcr
 git clone http://mod.lge.com/hub/dxadvtech/aicontents/gcr.git solution
 
-
 ```
 
 ## Quick Run Guide
@@ -63,7 +62,8 @@ python main.py
 - 필수적으로 수정해야하는 ***arguments***는 아래와 같습니다. 
 ***
 external_path:  
-&emsp;- *load_train_data_path*: ***~/example/sample_data_dir/***    # 데이터가 들어있는 폴더 경로
+&emsp;- *load_train_data_path*: ***~/example/sample_data_train/***    # train 데이터가 들어있는 폴더 경로
+&emsp;- *load_inference_data_path*: ***~/example/sample_data_inference/***    # inference 데이터가 들어있는 폴더 경로
 
 user_parameters:  
 
@@ -83,8 +83,8 @@ user_parameters:
 
 ***
 - Graph 구조 선택, 학습 param 설정 및 GCR asset의 다양한 기능을 사용하고 싶으신 경우 [User Guide (GCR)](http://collab.lge.com/main/pages/viewpage.action?pageId=2178788969)를 참고하여 yaml파일을 수정하시면 됩니다. 
-- 임베딩 결과 파일 저장 경로: `alo/.train_artifacts/output/graph/`
-- 추론 결과 파일 저장 경로: `alo/.inference_artifacts/output/result/`
+- 임베딩 결과 파일 저장 경로: `alo/.train_artifacts/output/train/models/`
+- 추론 결과 파일 저장 경로: `alo/.inference_artifacts/output/output.csv`
 
 
 
@@ -95,7 +95,7 @@ Jupyter 환경에서 Workflow 단계마다 asset을 실행하고 setting을 바�
 [AICONTENTS](http://collab.lge.com/main/display/AICONTENTS)
 
 ## 요청 및 문의
-담당자: seongwoo.kong@lge.com  
+담당자: seongwoo.kong@lge.com / jw0220.kim@lge.com
 신규 AI Contents나 추가 기능 요청을 등록하시면 검토 후 반영합니다  
 [Request CLM](http://clm.lge.com/issue/projects/AICONTENTS/summary)
 
