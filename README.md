@@ -26,6 +26,7 @@
 - Graph Partitioning을 활용하여 적은 리소스로도 그래프 학습이 가능합니다.
 - GCR은 결측치에 강인하여 별도의 전처리 없이 model 학습이 가능합니다.
 - TCR의 HPO를 활용하여 높은 성능을 확보할 수 있는 모델을 찾습니다.
+- Inductive Learning 알고리즘의 적용을 통해 Inference 시 Graph 재학습이 필요 없습니다.
 
 상세한 설명은 [documentation](http://collab.lge.com/main/pages/viewpage.action?pageId=2184972902)을 참고해주세요. 
 
