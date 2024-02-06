@@ -37,6 +37,7 @@
 
 ```
 git clone http://mod.lge.com/hub/dxadvtech/aicontents/gcr.git 
+git clone http://mod.lge.com/hub/dxadvtech/aicontents-framework/alo.git -b release-2.2
 cd gcr 
 
 conda create -n gcr python=3.10
