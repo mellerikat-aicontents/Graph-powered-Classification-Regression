@@ -36,19 +36,18 @@
 
 
 ```
-git clone http://mod.lge.com/hub/dxadvtech/aicontents/gcr.git 
-git clone http://mod.lge.com/hub/dxadvtech/aicontents-framework/alo.git -b release-2.2
-cd gcr 
+git clone http://mod.lge.com/hub/dxadvtech/aicontents-framework/alo.git -b release-2.2 gcr
+cd gcr
 
 conda create -n gcr python=3.10
 conda init bash
-conda activate gcr 
+conda activate gcr
+pip install -r requirements.txt
 
 #jupyter 사용시 ipykernel 추가 필요
 #pip install ipykernel
 #python -m ipykernel install --user --name gcr 
 
-source install.sh
 
 ```
 
