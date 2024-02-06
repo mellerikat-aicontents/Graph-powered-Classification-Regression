@@ -13,9 +13,6 @@
 
 ## 데이터 준비
 1. Train, Inference 두 개의 데이터셋을 준비합니다.
-2. 각 데이터에 FLAG_TRAIN_INFERENCE 컬럼을 추가합니다.
-   - 각각 'Train', 'Inference'가 flag로 들어가야 합니다.
-3. 두 데이터를 합쳐 하나의 데이터셋으로 구성합니다.
 
 
 데이터 준비를 위한 상세한 내용은 [User Guide](http://collab.lge.com/main/pages/viewpage.action?pageId=2184972859#UserGuide(GCR)-|GCR%EC%9A%A9%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%A4%80%EB%B9%84)를 참고해주세요.
@@ -46,7 +43,10 @@ pip install -r requirements.txt
 
 #jupyter 사용시 ipykernel 추가 필요
 #pip install ipykernel
-#python -m ipykernel install --user --name gcr 
+#python -m ipykernel install --user --name gcr
+
+cd gcr
+git clone http://mod.lge.com/hub/dxadvtech/aicontents/gcr.git solution
 
 
 ```
@@ -54,8 +54,9 @@ pip install -r requirements.txt
 ## Quick Run Guide
 - 아래 코드 블럭을 실행하면 GCR이 실행되고 이때 자동으로 `experimental_plan.yaml`을 참조합니다. 
 ```
-cd alo
+(gcr 폴더 내부)
 python main.py
+
 ```
 - GCR 구동을 위해서는 분석 데이터에 대한 정보 및 사용할 GCR 기능이 기록된 yaml파일이 필요합니다.  
 - GCR default yaml파일인 `experimental_plan.yaml`의 argument를 변경하여 분석하고 싶은 데이터에 GCR을 적용할 수 있습니다.
