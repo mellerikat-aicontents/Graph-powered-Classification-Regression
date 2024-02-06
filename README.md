@@ -63,6 +63,7 @@ python main.py
 ***
 external_path:  
 &emsp;- *load_train_data_path*: ***~/example/sample_data_train/***    # train 데이터가 들어있는 폴더 경로
+
 &emsp;- *load_inference_data_path*: ***~/example/sample_data_inference/***    # inference 데이터가 들어있는 폴더 경로
 
 user_parameters:  
@@ -95,7 +96,8 @@ Jupyter 환경에서 Workflow 단계마다 asset을 실행하고 setting을 바�
 [AICONTENTS](http://collab.lge.com/main/display/AICONTENTS)
 
 ## 요청 및 문의
-담당자: seongwoo.kong@lge.com / jw0220.kim@lge.com
+담당자: seongwoo.kong@lge.com, jw0220.kim@lge.com
+
 신규 AI Contents나 추가 기능 요청을 등록하시면 검토 후 반영합니다  
 [Request CLM](http://clm.lge.com/issue/projects/AICONTENTS/summary)
 
