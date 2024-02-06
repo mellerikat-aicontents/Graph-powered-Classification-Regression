@@ -57,6 +57,12 @@ git clone http://mod.lge.com/hub/dxadvtech/aicontents/gcr.git solution
 (gcr 폴더 내부)
 python main.py
 
+--train pipeline만 실행
+python main.py --mode train
+
+--inference pipeline만 실행
+python main.py --mode inference
+
 ```
 - GCR 구동을 위해서는 분석 데이터에 대한 정보 및 사용할 GCR 기능이 기록된 yaml파일이 필요합니다.  
 - GCR default yaml파일인 `experimental_plan.yaml`의 argument를 변경하여 분석하고 싶은 데이터에 GCR을 적용할 수 있습니다.
