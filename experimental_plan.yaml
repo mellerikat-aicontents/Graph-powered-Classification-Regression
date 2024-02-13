@@ -15,88 +15,98 @@ external_path_permission:
 ## - 해당 위치에서 삭제되면, code 의 default 로 실행
 user_parameters:
     - train_pipeline:
-        - step: input  ## 필수
+        - step: input
           args:
-            - input_path: adult_income    # external_path의 load_train_data_path의 최하위 디렉토리 명 입력
-              x_columns:            # 그래프 구성에 사용할 x컬럼 지정
-              use_all_x: True       # 데이터의 모든 x컬럼을 사용할 경우 True로 입력 / True, False
-              y_column: target  # Label에 해당하는 컬럼 지정
+            - input_path: adult_income    # (str)
+              x_columns:                  # (list)
+              use_all_x: True             # (bool), True | False
+              y_column: target            # (str) 
               groupkey_columns:
               drop_columns:
               time_column:
               concat_dataframes:
-              encoding:             # cp949
+              encoding:                   # (str), utf-8(default) | cp949
 
+        - step: readiness
+          args:
+            - x_columns:                # (list of str)
+              y_column: target          # (str)
+              groupkey_columns:         # (list of str)
+              center_node_column: ID    # (str)
           
-        - step: train1 ## graph train
+        - step: train1
           args:       
-            - center_node_column: ID        # 이름, ID등 나머지 정보들을 대표할 수 있는 컬럼을 중심 노드로 방사형 구조 그래프 설계 / default: 고유값이 가장 많은 컬럼 자동 선택(ex Customer_ID)          
-            # User Settings
-              embedding_column: ID         # 임베딩 대상 컬럼 / default: 중심 노드 컬럼 (center_node_column)
-              dimension: 128                   # 임베딩 차원 (dimension > 1 & 짝수)/ default: 256
-              num_epochs: 1                  # 그래프 학습 epoch 수 / default: 10
-              num_partitions:                   # node partition 수, 데이터가 큰 경우 partition을 늘려 메모리 사용량 감소 / default: 1 
-            # Advanced Settings
-              use_gpu:                          # Graph Embedding 학습시 GPU 사용여부(True/False), default: False
+            - center_node_column: ID        # (str), automatic selection of columns with the most unique values, ex CUSTOMER_ID(default)        
+              embedding_column: ID          # (str), center_node_column(default)
+              dimension: 128                # (int), 256(default), dimension > 1 & even
+              num_epochs: 1                 # (int), 10(default)
+              num_partitions:               # (int), 1(default)
+              use_gpu:                      # (bool), False(default) | True
 
         - step: preprocess
           args:
-            - handling_missing: interpolation         # 숫자형 결측치 처리 방법 설정 (interpolation, fill_number, dropna)
-              handling_encoding_y_column: target  # 인코딩을 적용할 y컬럼 설정 (input asset의 y_column과 동일하게 설정)
-              handling_encoding_y: label              # none, label, ordinal, binary, onehot, hashing
-              handling_scaling_x: none                # onehot이나 hashing 인코딩 등을 진행 시 컬럼이 너무 많아지는 것에 대한 한계치 설정 
+            - handling_missing: interpolation         # (str), interpolation | fill_number | dropna
+              handling_encoding_y_column: target      # (str)
+              handling_encoding_y: label              # (str), none | label | ordinal | binary | onehot | hashing
+              handling_scaling_x: none                # (str) onehot이나 hashing 인코딩 등을 진행 시 컬럼이 너무 많아지는 것에 대한 한계치 설정 
               load_train_preprocess: False            # (inference workflow 전용) True 이면, train preprocess 를 참조하여 진행
         
-        - step: train2 ## 필수
+        - step: train2
           args:
-            - model_type: classification               # classification / regression (task의 목적에 맞게 입력)
-              data_split_method: cross_validate        # hyper parameter optimization을 위한 data 분할 방식 / (cross_validate, train_test_split)
-              evaluation_metric: accuracy              # classification: accuracy, precision, recall, f1-score / regression: mse, r2, mae, rmse
-              model_list: [lgb]                        # 알고리즘 선택(param_range를 사용할 경우, classification의 경우 rf, gbm, lgb, cb만 가능)
-              num_hpo: 3                               # HPO 개수 설정, 0 인 경우 하기 설정을 무시하고 위에서 선택한 알고리즘에 대해서 default로 실행됨
+            - model_type: classification               # (str), classification(default) | regression
+              data_split_method: cross_validate        # (str), cross_validate | train_test_split
+              evaluation_metric: accuracy              # (str), classification: accuracy, precision, recall, f1-score | regression: mse, r2, mae, rmse
+              model_list: [lgb]                        # (list), [lgb]
+              num_hpo: 3                               # (int), 3(default)
               param_range: {
                 rf: {max_depth: 6, n_estimators: [300, 500]},
                 gbm: {max_depth: [5, 7], n_estimators: [300, 500]},
                 ngb: {col_sample: [0.6, 0.8], n_estimators:[100, 300]},               
                 lgb: {max_depth:[5, 9], n_estimators:[300, 500]},
                 cb: {max_depth:[5, 9], n_estimators:[100, 500]},
-              } # 탐색하고 싶은 parameter [min, max] 설정, 숫자만 입력할 경우 해당 parameter는 고정됨
-              ## num_hpo=3, max_depth=[1, 3]인 경우 hpo 과정에서 max_depth가 1, 2, 3인 경우에 대해 실행됨.(소수점인 경우 integer로 실행)
+              }                                       # (dict) 탐색하고 싶은 parameter [min, max] 설정, 숫자만 입력할 경우 해당 parameter는 고정됨
+                                                      # num_hpo=3, max_depth=[1, 3]인 경우 hpo 과정에서 max_depth가 1, 2, 3인 경우에 대해 실행됨.(소수점인 경우 integer로 실행)
               shap_ratio: 0.001
-              # train시 shap value 뽑을 데이터를 sampling하는 비율
-              # 1로 입력하면, train 데이터 전체에 대해 shap value가 출력 됩니다. 단, 학습 시간이 크게 소요됩니다.
+                                                      # (float) train시 shap value 뽑을 데이터를 sampling하는 비율
+                                                      # 1로 입력하면, train 데이터 전체에 대해 shap value가 출력 됩니다. 단, 학습 시간이 크게 소요됩니다.
    
     - inference_pipeline:
-        - step: input  ## 필수
+        - step: input
           args:
-            - input_path: inference
-              x_columns: 
-              use_all_x: true
+            - input_path: inference    # (str)
+              x_columns:               # (list)
+              use_all_x: true          # (bool), True | False 
               y_column: 
               groupkey_columns:
               drop_columns:
               time_column:
               concat_dataframes:
-              encoding: # cp949 
+              encoding:  
+        - step: readiness
+          args:
+            - x_columns:                # (list of str)
+              y_column: target          # (str)
+              groupkey_columns:         # (list of str)
+              center_node_column: ID    # (str)
 
-        - step: inference1 # graph inference
+        - step: inference1
           args:
               
         - step: preprocess
           args:
-            - handling_missing: interpolation
+            - handling_missing: interpolation  # (str)
               handling_encoding_y_column:  
-              limit_encoding_categories: 30 # onehot이나 hashing 인코딩 등을 진행 시 컬럼이 너무 많아지는 것에 대한 한계치 설정
-              load_train_preprocess: True   ## (inference workflow 전용) True 이면, train preprocess 를 참조하여 진행
+              limit_encoding_categories: 30    # (int) 
+              load_train_preprocess: True      # (bool) True(default)
 
-        - step: inference2 ## 필수
+        - step: inference2
           args:
-            - model_type: classification
+            - model_type: classification      # (str), classification(default) | regression
               run_shapley: False
 
         - step: result
           args:
-            - result_save_name:               # result save file name, default: inference_result.csv
+            - result_save_name:               # (str) Default = output.csv
    
 ## asset 의 설치 정보를 기록       
 asset_source:
@@ -106,6 +116,14 @@ asset_source:
             code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/input.git
             # code: local
             branch: tabular_2.0
+            requirements:
+              - pandas==1.5.3
+
+        - step: readiness
+          source:
+            code: http://mod.lge.com/hub/dxadvtech/assets/readiness.git
+            # code: local
+            branch: gcr-0.9.0
             requirements:
               - pandas==1.5.3
         
@@ -142,6 +160,14 @@ asset_source:
            # code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/input.git
             code: local
             branch: tabular_2.0
+            requirements:
+              - pandas==1.5.3
+
+        - step: readiness
+          source:
+            code: http://mod.lge.com/hub/dxadvtech/assets/readiness.git
+            # code: local
+            branch: gcr-0.9.0
             requirements:
               - pandas==1.5.3
 
