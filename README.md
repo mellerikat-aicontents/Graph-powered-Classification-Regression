@@ -34,6 +34,7 @@
 
 
 ```
+# git clone http://mod.lge.com/hub/dxadvtech/aicontents-framework/alo.git -b release-2.2 {solution_name}
 git clone http://mod.lge.com/hub/dxadvtech/aicontents-framework/alo.git -b release-2.2 gcr
 cd gcr
 
@@ -54,7 +55,7 @@ git clone http://mod.lge.com/hub/dxadvtech/aicontents/gcr.git solution
 ## Quick Run Guide
 - 아래 코드 블럭을 실행하면 GCR이 실행되고 이때 자동으로 `experimental_plan.yaml`을 참조합니다. 
 ```
-(gcr 폴더 내부)
+({solution_name} 폴더 내부)
 python main.py
 
 --train pipeline만 실행
