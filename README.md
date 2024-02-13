@@ -2,7 +2,7 @@
 
 ⚡ Graph Classification Regression(GCR)는 정형 데이터를 그래프로 변환하여 추출한 임베딩을 활용하여 분류/회귀 솔루션에 적용할 수 있는 컨텐츠입니다.⚡
 
-[![Generic badge](https://img.shields.io/badge/release-v1.0.0-green.svg?style=for-the-badge)](http://링크)
+[![Generic badge](https://img.shields.io/badge/release-v2.0.0-green.svg?style=for-the-badge)](http://링크)
 [![Generic badge](https://img.shields.io/badge/last_update-2023.10.16-002E5F?style=for-the-badge)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![Generic badge](https://img.shields.io/badge/python-3.10.12-purple.svg?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
@@ -13,9 +13,6 @@
 
 ## 데이터 준비
 1. Train, Inference 두 개의 데이터셋을 준비합니다.
-2. 각 데이터에 FLAG_TRAIN_INFERENCE 컬럼을 추가합니다.
-   - 각각 'Train', 'Inference'가 flag로 들어가야 합니다.
-3. 두 데이터를 합쳐 하나의 데이터셋으로 구성합니다.
 
 
 데이터 준비를 위한 상세한 내용은 [User Guide](http://collab.lge.com/main/pages/viewpage.action?pageId=2184972859#UserGuide(GCR)-|GCR%EC%9A%A9%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%A4%80%EB%B9%84)를 참고해주세요.
@@ -29,6 +26,7 @@
 - Graph Partitioning을 활용하여 적은 리소스로도 그래프 학습이 가능합니다.
 - GCR은 결측치에 강인하여 별도의 전처리 없이 model 학습이 가능합니다.
 - TCR의 HPO를 활용하여 높은 성능을 확보할 수 있는 모델을 찾습니다.
+- Inductive Learning 알고리즘의 적용을 통해 Inference 시 Graph 재학습이 필요 없습니다.
 
 상세한 설명은 [documentation](http://collab.lge.com/main/pages/viewpage.action?pageId=2184972902)을 참고해주세요. 
 
@@ -36,33 +34,44 @@
 
 
 ```
-git clone http://mod.lge.com/hub/dxadvtech/aicontents/gcr.git 
-cd gcr 
+git clone http://mod.lge.com/hub/dxadvtech/aicontents-framework/alo.git -b release-2.2 gcr
+cd gcr
 
 conda create -n gcr python=3.10
 conda init bash
-conda activate gcr 
+conda activate gcr
+pip install -r requirements.txt
 
 #jupyter 사용시 ipykernel 추가 필요
 #pip install ipykernel
-#python -m ipykernel install --user --name gcr 
+#python -m ipykernel install --user --name gcr
 
-source install.sh
+cd gcr
+git clone http://mod.lge.com/hub/dxadvtech/aicontents/gcr.git solution
 
 ```
 
 ## Quick Run Guide
 - 아래 코드 블럭을 실행하면 GCR이 실행되고 이때 자동으로 `experimental_plan.yaml`을 참조합니다. 
 ```
-cd alo
+(gcr 폴더 내부)
 python main.py
+
+--train pipeline만 실행
+python main.py --mode train
+
+--inference pipeline만 실행
+python main.py --mode inference
+
 ```
 - GCR 구동을 위해서는 분석 데이터에 대한 정보 및 사용할 GCR 기능이 기록된 yaml파일이 필요합니다.  
 - GCR default yaml파일인 `experimental_plan.yaml`의 argument를 변경하여 분석하고 싶은 데이터에 GCR을 적용할 수 있습니다.
 - 필수적으로 수정해야하는 ***arguments***는 아래와 같습니다. 
 ***
 external_path:  
-&emsp;- *load_train_data_path*: ***~/example/sample_data_dir/***    # 데이터가 들어있는 폴더 경로
+&emsp;- *load_train_data_path*: ***~/example/sample_data_train/***    # train 데이터가 들어있는 폴더 경로
+
+&emsp;- *load_inference_data_path*: ***~/example/sample_data_inference/***    # inference 데이터가 들어있는 폴더 경로
 
 user_parameters:  
 
@@ -82,8 +91,8 @@ user_parameters:
 
 ***
 - Graph 구조 선택, 학습 param 설정 및 GCR asset의 다양한 기능을 사용하고 싶으신 경우 [User Guide (GCR)](http://collab.lge.com/main/pages/viewpage.action?pageId=2178788969)를 참고하여 yaml파일을 수정하시면 됩니다. 
-- 임베딩 결과 파일 저장 경로: `alo/.train_artifacts/output/graph/`
-- 추론 결과 파일 저장 경로: `alo/.inference_artifacts/output/result/`
+- 임베딩 결과 파일 저장 경로: `alo/.train_artifacts/output/train/models/`
+- 추론 결과 파일 저장 경로: `alo/.inference_artifacts/output/output.csv`
 
 
 
@@ -94,7 +103,8 @@ Jupyter 환경에서 Workflow 단계마다 asset을 실행하고 setting을 바�
 [AICONTENTS](http://collab.lge.com/main/display/AICONTENTS)
 
 ## 요청 및 문의
-담당자: seongwoo.kong@lge.com  
+담당자: seongwoo.kong@lge.com, jw0220.kim@lge.com
+
 신규 AI Contents나 추가 기능 요청을 등록하시면 검토 후 반영합니다  
 [Request CLM](http://clm.lge.com/issue/projects/AICONTENTS/summary)
 
