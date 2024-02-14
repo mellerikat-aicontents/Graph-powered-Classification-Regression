@@ -68,9 +68,9 @@ python main.py --mode inference
 - 필수적으로 수정해야하는 ***arguments***는 아래와 같습니다. 
 ***
 external_path:  
-&emsp;- *load_train_data_path*: ***./solution/sample_data/train/***    # train 데이터가 들어있는 폴더 경로
+&emsp;- *load_train_data_path*: ***./solution/sample_data/train***    # train 데이터가 들어있는 폴더 경로
 
-&emsp;- *load_inference_data_path*: ***./solution/sample_data/test/***    # inference 데이터가 들어있는 폴더 경로
+&emsp;- *load_inference_data_path*: ***./solution/sample_data/test***    # inference 데이터가 들어있는 폴더 경로
 
 user_parameters:  
 
@@ -80,11 +80,11 @@ user_parameters:
 
 &emsp;&emsp;&emsp;args: 
 
-&emsp;&emsp;&emsp;- *input_path*: ***train_data_folder***    # 학습 데이터가 들어있는 폴더
+&emsp;&emsp;&emsp;- *input_path*: ***train***    # 학습 데이터가 들어있는 폴더
 
 &emsp;&emsp;&emsp;&ensp;*use_all_x*: ***True***              # 분석 데이터의 X컬럼은 전부 사용
 
-&emsp;&emsp;&emsp;&ensp;*y_column*: ***is_married***         # 분석 데이터의 Y컬럼(Label) 명 예시
+&emsp;&emsp;&emsp;&ensp;*y_column*: ***target***         # 분석 데이터의 Y컬럼(Label) 명 예시
 
 &emsp;&emsp;&emsp;&ensp;...  
 
