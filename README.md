@@ -36,10 +36,8 @@
 ```
 # git clone http://mod.lge.com/hub/dxadvtech/aicontents-framework/alo.git -b release-2.2 {solution_name}
 git clone http://mod.lge.com/hub/dxadvtech/aicontents-framework/alo.git -b release-2.2 gcr
-cd gcr
 
 conda create -n gcr python=3.10
-conda init bash
 conda activate gcr
 pip install -r requirements.txt
 
@@ -70,9 +68,9 @@ python main.py --mode inference
 - 필수적으로 수정해야하는 ***arguments***는 아래와 같습니다. 
 ***
 external_path:  
-&emsp;- *load_train_data_path*: ***~/example/sample_data_train/***    # train 데이터가 들어있는 폴더 경로
+&emsp;- *load_train_data_path*: ***./solution/sample_data/train/***    # train 데이터가 들어있는 폴더 경로
 
-&emsp;- *load_inference_data_path*: ***~/example/sample_data_inference/***    # inference 데이터가 들어있는 폴더 경로
+&emsp;- *load_inference_data_path*: ***./solution/sample_data/test/***    # inference 데이터가 들어있는 폴더 경로
 
 user_parameters:  
 
