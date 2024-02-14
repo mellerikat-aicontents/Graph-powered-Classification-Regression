@@ -1,23 +1,21 @@
-## 해당 파일에서 기술하기에 힘든 내용의 자세한 설명은 아래 user guide 참조 하시길 바랍니다.
-## http://collab.lge.com/main/pages/viewpage.action?pageId=2184972859
-
-## 외부에서 데이터 가져오기 / 결과 저장하는 경우 해당 위치에 지정
+## load data from external_path
 external_path:
-    - load_train_data_path: /nas001/users/jw0220.kim/gcr_test_data/adult_income/
-    - load_inference_data_path: /nas001/users/jw0220.kim/gcr_test_data/inference/
+    - load_train_data_path: ./solution/sample_data/train
+    - load_inference_data_path: ./solution/sample_data/test
     - save_train_artifacts_path:
     - save_inference_artifacts_path:
+    - load_model_path: 
 
 external_path_permission:
     - s3_private_key_file:
  
-## 실험에 필요한 파라미터를 설정함 
-## - 해당 위치에서 삭제되면, code 의 default 로 실행
+## Parameter setting for experiment 
+## 
 user_parameters:
     - train_pipeline:
         - step: input
           args:
-            - input_path: adult_income    # (str)
+            - input_path: train           # (str)
               x_columns:                  # (list)
               use_all_x: True             # (bool), True | False
               y_column: target            # (str) 
@@ -48,15 +46,15 @@ user_parameters:
             - handling_missing: interpolation         # (str), interpolation | fill_number | dropna
               handling_encoding_y_column: target      # (str)
               handling_encoding_y: label              # (str), none | label | ordinal | binary | onehot | hashing
-              handling_scaling_x: none                # (str) onehot이나 hashing 인코딩 등을 진행 시 컬럼이 너무 많아지는 것에 대한 한계치 설정 
-              load_train_preprocess: False            # (inference workflow 전용) True 이면, train preprocess 를 참조하여 진행
+              handling_scaling_x: none                # (str)  
+              load_train_preprocess: False            # (For inference workflow) False(default, in train pipeline)
         
         - step: train2
           args:
             - model_type: classification               # (str), classification(default) | regression
               data_split_method: cross_validate        # (str), cross_validate | train_test_split
               evaluation_metric: accuracy              # (str), classification: accuracy, precision, recall, f1-score | regression: mse, r2, mae, rmse
-              model_list: [lgb]                        # (list), [lgb]
+              model_list: [lgb]                        # (list), [lgb](default)
               num_hpo: 3                               # (int), 3(default)
               param_range: {
                 rf: {max_depth: 6, n_estimators: [300, 500]},
@@ -64,16 +62,16 @@ user_parameters:
                 ngb: {col_sample: [0.6, 0.8], n_estimators:[100, 300]},               
                 lgb: {max_depth:[5, 9], n_estimators:[300, 500]},
                 cb: {max_depth:[5, 9], n_estimators:[100, 500]},
-              }                                       # (dict) 탐색하고 싶은 parameter [min, max] 설정, 숫자만 입력할 경우 해당 parameter는 고정됨
-                                                      # num_hpo=3, max_depth=[1, 3]인 경우 hpo 과정에서 max_depth가 1, 2, 3인 경우에 대해 실행됨.(소수점인 경우 integer로 실행)
+              }                                       # (dict) 
+                                                      
               shap_ratio: 0.001
-                                                      # (float) train시 shap value 뽑을 데이터를 sampling하는 비율
-                                                      # 1로 입력하면, train 데이터 전체에 대해 shap value가 출력 됩니다. 단, 학습 시간이 크게 소요됩니다.
+                                                      # (float) 
+                                                      
    
     - inference_pipeline:
         - step: input
           args:
-            - input_path: inference    # (str)
+            - input_path: test         # (str)
               x_columns:               # (list)
               use_all_x: true          # (bool), True | False 
               y_column: 
@@ -109,11 +107,11 @@ user_parameters:
           args:
             - result_save_name:               # (str) Default = output.csv
    
-## asset 의 설치 정보를 기록       
+## asset information       
 asset_source:
     - train_pipeline:
         - step: input
-          source:  ## git / local 지원
+          source:  ## git | local 
             code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/input.git
             # code: local
             branch: tabular_2.0
@@ -138,7 +136,7 @@ asset_source:
               - requirements.txt
 
         - step: preprocess
-          source:  ## git / local 지원
+          source:  ## git | local
             code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/preprocess.git
             # code: local
             branch: release-1.2
@@ -150,14 +148,14 @@ asset_source:
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/tcr.git
             # code: local
-            branch: tcr_v1.1.2
+            branch: tcr_v1.1.4
             requirements:
               - requirements.txt 
               - numpy==1.25.2 --force-reinstall 
    
     - inference_pipeline:
         - step: input
-          source:  ## git / local 지원
+          source:  ## git | local
            # code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/input.git
             code: local
             branch: tabular_2.0
@@ -182,7 +180,7 @@ asset_source:
               - requirements.txt
 
         - step: preprocess
-          source:  ## git / local 지원
+          source:  ## git | local
            # code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/preprocess.git
             code: local
             branch: release-1.2
@@ -193,7 +191,7 @@ asset_source:
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/tcr.git
             # code: local
-            branch: tcr_v1.1.2
+            branch: tcr_v1.1.4
             requirements:
               - pandas==1.5.3
               
@@ -209,7 +207,7 @@ control:
     ## 1-2 requirements.txt 및 종속 패키지들 한번만 설치할 지 매번 설치할지도 결정 
     - get_asset_source: once ## once, every
     # TODO 아래 get_external_data 제작하기
-    - get_external_data: once ## once, every
+    - get_external_data: every ## once, every
     ## 2. 생성된 artifacts 를 backup 할지를 결정 True/False
     - backup_artifacts: True
     ## 3. pipeline 로그를 backup 할지를 결정 True/False
