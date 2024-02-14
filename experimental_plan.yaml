@@ -24,6 +24,9 @@ user_parameters:
               time_column:
               concat_dataframes:
               encoding:                   # (str), utf-8(default) | cp949
+          ui_args:
+            - x_columns
+            - y_column
 
         - step: readiness
           args:
@@ -40,6 +43,10 @@ user_parameters:
               num_epochs: 1                 # (int), 10(default)
               num_partitions:               # (int), 1(default)
               use_gpu:                      # (bool), False(default) | True
+          ui_args:
+            - center_node_column
+            - dimension
+            - num_epochs
 
         - step: preprocess
           args:
@@ -66,6 +73,14 @@ user_parameters:
                                                       
               shap_ratio: 0.001
                                                       # (float) 
+          ui_args:
+            - model_type
+            - evaluation_metric
+            - shap_ratio
+
+        - step: output
+          args:
+      
                                                       
    
     - inference_pipeline:
@@ -80,6 +95,8 @@ user_parameters:
               time_column:
               concat_dataframes:
               encoding:  
+          ui_args:
+            - x_columns
                 
         - step: readiness
           args:
@@ -103,9 +120,12 @@ user_parameters:
             - model_type: classification      # (str), classification(default) | regression
               run_shapley: False
 
-        - step: result
+        # - step: result
+        #   args:
+        #     - result_save_name:               # (str) Default = output.csv
+
+        - step: output
           args:
-            - result_save_name:               # (str) Default = output.csv
    
 ## asset information       
 asset_source:
@@ -152,6 +172,15 @@ asset_source:
             requirements:
               - requirements.txt 
               - numpy==1.25.2 --force-reinstall 
+        
+        - step: output
+          source:
+            code: http://mod.lge.com/hub/dxadvtech/assets/output.git
+            # code: local
+            branch: output_dev
+            requirements:
+              - requirements.txt
+
    
     - inference_pipeline:
         - step: input
@@ -195,12 +224,20 @@ asset_source:
             requirements:
               - pandas==1.5.3
               
-        - step: result
+        # - step: result
+        #   source:
+        #     code: http://mod.lge.com/hub/dxadvtech/assets/gfe.git
+        #     branch: develop
+        #     requirements:
+        #       - pandas==1.5.3
+                
+        - step: output
           source:
-            code: http://mod.lge.com/hub/dxadvtech/assets/gfe.git
-            branch: develop
+            code: http://mod.lge.com/hub/dxadvtech/assets/output.git
+            # code: local
+            branch: output_dev
             requirements:
-              - pandas==1.5.3
+              - requirements.txt
      
 control:
     ## 1. 패키지 설치 및 asset 존재 여부를 실험 시마다 체크할지, 한번만 할지 결정
