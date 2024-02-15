@@ -50,14 +50,14 @@ git clone http://mod.lge.com/hub/dxadvtech/aicontents/gcr.git solution
 ## Quick Run Guide
 - 아래 코드 블럭을 실행하면 GCR이 실행되고 이때 자동으로 `experimental_plan.yaml`을 참조합니다. 
 ```
-({solution_name} 폴더 내부)
-python main.py
+-- 전체 pipeline 실행
+/gcr$ python main.py
 
 --train pipeline만 실행
-python main.py --mode train
+/gcr$ python main.py --mode train
 
 --inference pipeline만 실행
-python main.py --mode inference
+/gcr$ python main.py --mode inference
 
 ```
 - GCR 구동을 위해서는 분석 데이터에 대한 정보 및 사용할 GCR 기능이 기록된 yaml파일이 필요합니다.  
