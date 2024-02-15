@@ -39,9 +39,10 @@ git clone http://mod.lge.com/hub/dxadvtech/aicontents-framework/alo.git -b relea
 
 conda create -n gcr python=3.10
 conda activate gcr
+cd gcr
+
 pip install -r requirements.txt
 
-cd gcr
 git clone http://mod.lge.com/hub/dxadvtech/aicontents/gcr.git solution
 
 ```
