@@ -26,11 +26,93 @@
 - Graph Partitioning을 활용하여 적은 리소스로도 그래프 학습이 가능합니다.
 - GCR은 결측치에 강인하여 별도의 전처리 없이 model 학습이 가능합니다.
 - TCR의 HPO를 활용하여 높은 성능을 확보할 수 있는 모델을 찾습니다.
-- Inductive Learning 알고리즘의 적용을 통해 Inference 시 Graph 재학습이 필요 없습니다.
+- Inductive graph embedding의 적용을 통해 graph embedding 기반이면서도 일반적인 machine learning model과 동일하게 inference 시 classification/regression 모델의 재학습이 필요 없습니다.
 
 상세한 설명은 [documentation](http://collab.lge.com/main/pages/viewpage.action?pageId=2184972902)을 참고해주세요. 
 
 ## Quick Install Guide
+
++ ***먼저 ALO를 설치합니다.***    
+<br />
+
+이 때, 사용할 GCR version에 맞는 ALO version 설치가 필요합니다.   
+본 sample notebook에서는 2024년 2월 현재 최신 GCR version인 2.0.0을 다루고 있으므로, 거기에 맞는 ALO version 2.2를 설치합니다.   
+GCR version과 ALO version 간 mapping 정보는 http://collab.lge.com/main/pages/viewpage.action?pageId=2338397990의 guide를 참고해 주십시오.
+<br />
+
+작업 directory를 준비합니다 (여기에서는 예를 들어 aisolution_gcr_2.0.0이라는 directory를 생성합니다).   
+<br />
+
+\\$ mkdir aisolution_gcr_2.0.0   
+\\$ cd aisolution_gcr_2.0.0   
+<br />
+
+AI solution name을 예를 들어 gcr_solution으로 하여 ALO를 설치합니다.   
+<br />
+
+\\$ git clone http://mod.lge.com/hub/dxadvtech/aicontents-framework/alo.git -b release-2.2 gcr_solution   
+\\$ cd gcr_solution   
+<br />
+
+gcr_solution이라는 AI solution 개발을 위한 가상환경을 만들어 줍니다.   
+이미 어떤 가상환경에 진입한 상태라면, conda deactivate를 수행해 해당 환경에서 빠져나간 뒤 수행해 주십시오.   
+<br />
+
+\\$ conda create -n gcr_solution python=3.10  => 3.10 필수   
+\\$ conda init bash   
+\\$ source ~/.bashrc => 이 명령은 아래 conda activate gcr_solution을 바로 수행했을 때 동작하지 않는 경우에만 수행해 주십시오.   
+\\$ conda activate gcr_solution   
+\\$ pip install -r requirements.txt   
+<br />
+
++ ***ALO 설치가 완료되었으면, GCR 2.0.0을 설치합니다.***   
+<br />
+
+\\$ git clone http://mod.lge.com/hub/dxadvtech/aicontents/gcr.git solution   
+<br />
+
+GCR version 2.0.0이 올바로 설치되었는지 확인합니다.   
+<br />
+
+\\$ cd solution   
+\\$ git status => 결과가 'On branch release-2.0.0'이 맞는 지 확인합니다.   
+<br />
+
+만일 다른 version이 설치되었다면, release-2.0.0을 다시 설치합니다.   
+<br />
+
+\\$ cd ..   
+\\$ \rm -rf solution   
+\\$ git clone -b release-2.0.0 --single-branch http://mod.lge.com/hub/dxadvtech/aicontents/gcr.git solution   
+<br />
+
+Default로 제공되는 sample data 대신 다른 data를 이용하려면 아래와 같이 experimental_plan.yaml을 수정합니다.   
+<br />
+
+\\$ vi aisolution_gcr_2.0.0/gcr_solution/solution/experimental_plan.yaml   
+<br />
+
+external_path의 load_train_data_path에 아래와 같이 사용할 데이터의 경로(디렉토리)를 입력합니다.   
+<br />
+
+>```   
+>external_path:   
+>    - load_train_data_path: /nas001/gcr_test_data/sample/   
+>    - load_inference_data_path:   
+>    - save_train_artifacts_path:   
+>    - save_inference_artifacts_path:   
+>```   
+<br />
+
+또한 GCR의 동작 설정 변경을 원할 경우에도 experimental_plan.yaml 내의 필수 변경 parameter를 변경합니다. 나머지 parameter는 컨텐츠 yaml에 제공된 default 값을 사용해도 괜찮습니다.   
+<br />
+
++ ***Sample Jupyter notebook인 'GCR_asset_run_template.ipynb'을 수행하기 위해, ipykernel을 설치해 줍니다.***   
+<br />
+
+\\$ pip install ipykernel   
+\\$ python -m ipykernel install --user --name gcr_solution   
+<br />
 
 
 ```
@@ -48,6 +130,17 @@ git clone http://mod.lge.com/hub/dxadvtech/aicontents/gcr.git solution
 ```
 
 ## Quick Run Guide
+
+이상과 같이 설치한 ALO와 GCR AI content를 main.py를 이용해 batch running합니다.   
+여기서 주어진 문제를 위해 input과 output asset들이 customized되어 있다면 이것이 곧 GCR 기반의 AI solution입니다.     
+<br />
+
+\\$ cd aisolution_gcr_2.0.0/gcr_solution   
+\\$ python main.py                    -> train/inference pipeline 일괄 수행   
+\\$ python main.py --mode train       -> train pipeline 수행    
+\\$ python main.py --mode inference   -> inference pipeline 수행   
+<br />
+
 - 아래 코드 블럭을 실행하면 GCR이 실행되고 이때 자동으로 `experimental_plan.yaml`을 참조합니다. 
 ```
 -- 전체 pipeline 실행
@@ -87,21 +180,19 @@ user_parameters:
 
 ***
 - Graph 구조 선택, 학습 param 설정 및 GCR asset의 다양한 기능을 사용하고 싶으신 경우 [User Guide (GCR)](http://collab.lge.com/main/pages/viewpage.action?pageId=2178788969)를 참고하여 yaml파일을 수정하시면 됩니다. 
-- 임베딩 결과 파일 저장 경로: `alo/.train_artifacts/output/train/models/`
-- 추론 결과 파일 저장 경로: `alo/.inference_artifacts/output/output.csv`
 
 
 
 ## Sample notebook
-Jupyter 환경에서 Workflow 단계마다 asset을 실행하고 setting을 바꿔 실험할 수 있습니다. [Sample notebook](http://mod.lge.com/hub/dxadvtech/aicontents/gcr/-/blob/main/GCR_asset_run_template.ipynb)
+Jupyter 환경에서 Workflow 단계마다 asset을 실행하고 setting을 바꿔 실험할 수 있습니다. [Sample notebook](http://mod.lge.com/hub/dxadvtech/aicontents/gcr/-/blob/release-2.0.0/GCR_asset_run_template.ipynb)
 
 ## 관련 Collab
 [AICONTENTS](http://collab.lge.com/main/display/AICONTENTS)
 
 ## 요청 및 문의
-담당자: seongwoo.kong@lge.com, jw0220.kim@lge.com
+담당자: 공성우 선임 (seongwoo.kong@lge.com), 김정원 연구원 (jw0220.kim@lge.com), 김수경 책임 (sookyoung.kim@lge.com)
 
 신규 AI Contents나 추가 기능 요청을 등록하시면 검토 후 반영합니다  
-[Request CLM](http://clm.lge.com/issue/projects/AICONTENTS/summary)
+[Request CLM](http://clm.lge.com/issue/projects/DXADVTECH/)
 
 
