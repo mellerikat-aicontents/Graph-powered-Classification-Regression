@@ -37,7 +37,6 @@
 
 이 때, 사용할 GCR version에 맞는 ALO version 설치가 필요합니다.   
 본 sample notebook에서는 2024년 2월 현재 최신 GCR version인 2.0.0을 다루고 있으므로, 거기에 맞는 ALO version 2.2를 설치합니다.   
-GCR version과 ALO version 간 mapping 정보는 http://collab.lge.com/main/pages/viewpage.action?pageId=2338397990의 guide를 참고해 주십시오.
 <br />
 
 작업 directory를 준비합니다 (여기에서는 예를 들어 aisolution_gcr_2.0.0이라는 directory를 생성합니다).   
