@@ -36,7 +36,7 @@
 <br />
 
 이 때, 사용할 GCR version에 맞는 ALO version 설치가 필요합니다.   
-본 sample notebook에서는 2024년 2월 현재 최신 GCR version인 2.0.0을 다루고 있으므로, 거기에 맞는 ALO version 2.2를 설치합니다.   
+GCR 2.0.0을 사용하기 위해서는 ALO version 2.2를 설치합니다.   
 <br />
 
 작업 directory를 준비합니다 (여기에서는 예를 들어 aisolution_gcr_2.0.0이라는 directory를 생성합니다).   
@@ -46,14 +46,15 @@
 \\$ cd aisolution_gcr_2.0.0   
 <br />
 
-AI solution name을 예를 들어 gcr_solution으로 하여 ALO를 설치합니다.   
+AI solution name (예를 들어 gcr_solution)으로 ALO를 설치합니다.   
+이러면 gcr_solution이라는 directory가 생기고 그 안에 GCR을 설치하게 됩니다 (GCR 기반 AI solution 작업도 그곳에서 진행합니다).
 <br />
 
 \\$ git clone http://mod.lge.com/hub/dxadvtech/aicontents-framework/alo.git -b release-2.2 gcr_solution   
 \\$ cd gcr_solution   
 <br />
 
-gcr_solution이라는 AI solution 개발을 위한 가상환경을 만들어 줍니다.   
+AI solution 개발을 위한 가상환경을 만들어 줍니다 (예를 들어 gcr_solution을 가상환경 이름으로 사용).   
 이미 어떤 가상환경에 진입한 상태라면, conda deactivate를 수행해 해당 환경에서 빠져나간 뒤 수행해 주십시오.   
 <br />
 
