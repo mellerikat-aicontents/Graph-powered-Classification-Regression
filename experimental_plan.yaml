@@ -46,7 +46,7 @@ user_parameters:
           args:
             - input_path: test         # (str)
               x_columns:               # (list)
-              use_all_x: true          # (bool), True | False 
+              use_all_x: True          # (bool), True | False 
               y_column: 
               groupkey_columns:
               drop_columns:
