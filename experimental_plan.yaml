@@ -35,22 +35,11 @@ user_parameters:
               num_epochs: 1                 # (int), 10(default)
               num_partitions:               # (int), 1(default)
               use_gpu:                      # (bool), False(default) | True
-          ui_args:
-            - center_node_column
-            - dimension
-            - num_epochs
         
         - step: train
           args:
             - task:                         # (str), classification(default) | regression
               epochs:                       # (int), 10(default)
-          ui_args:
-            - model_type
-            - evaluation_metric
-            - shap_ratio
-
-        - step: output
-          args:
       
                                                       
     - inference_pipeline:
@@ -71,8 +60,6 @@ user_parameters:
         - step: inference
           args:
 
-        - step: output
-          args:
    
 ## asset information       
 asset_source:
@@ -103,14 +90,6 @@ asset_source:
               - pandas==1.5.3
               - torch==2.0.0
               - requirements.txt
-        
-        - step: output
-          source:
-            code: http://mod.lge.com/hub/dxadvtech/assets/output.git
-            # code: local
-            branch: main
-            requirements:
-              - requirements.txt
 
    
     - inference_pipeline:
@@ -130,14 +109,7 @@ asset_source:
               - pandas==1.5.3
               - torch==2.0.0
               - requirements.txt
-                
-        - step: output
-          source:
-            #code: http://mod.lge.com/hub/dxadvtech/assets/output.git
-            code: local
-            branch: main
-            requirements:
-              - requirements.txt
+
      
 control:
     ## 1. 패키지 설치 및 asset 존재 여부를 실험 시마다 체크할지, 한번만 할지 결정
