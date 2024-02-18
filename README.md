@@ -115,20 +115,6 @@ external_path의 load_train_data_path에 아래와 같이 사용할 데이터의
 <br />
 
 
-```
-# git clone http://mod.lge.com/hub/dxadvtech/aicontents-framework/alo.git -b release-2.2 {solution_name}
-git clone http://mod.lge.com/hub/dxadvtech/aicontents-framework/alo.git -b release-2.2 gcr
-
-conda create -n gcr python=3.10
-conda activate gcr
-cd gcr
-
-pip install -r requirements.txt
-
-git clone http://mod.lge.com/hub/dxadvtech/aicontents/gcr.git solution
-
-```
-
 ## Quick Run Guide
 
 이상과 같이 설치한 ALO와 GCR AI content를 main.py를 이용해 batch running합니다.   
@@ -141,18 +127,7 @@ git clone http://mod.lge.com/hub/dxadvtech/aicontents/gcr.git solution
 \$ python main.py --mode inference   -> inference pipeline 수행   
 <br />
 
-- 아래 코드 블럭을 실행하면 GCR이 실행되고 이때 자동으로 `experimental_plan.yaml`을 참조합니다. 
-```
--- 전체 pipeline 실행
-/gcr$ python main.py
 
---train pipeline만 실행
-/gcr$ python main.py --mode train
-
---inference pipeline만 실행
-/gcr$ python main.py --mode inference
-
-```
 - GCR 구동을 위해서는 분석 데이터에 대한 정보 및 사용할 GCR 기능이 기록된 yaml파일이 필요합니다.  
 - GCR default yaml파일인 `experimental_plan.yaml`의 argument를 변경하여 분석하고 싶은 데이터에 GCR을 적용할 수 있습니다.
 - 필수적으로 수정해야하는 ***arguments***는 아래와 같습니다. 
