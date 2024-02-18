@@ -109,10 +109,9 @@ external_path의 load_train_data_path에 아래와 같이 사용할 데이터의
 
 + ***Sample Jupyter notebook인 'GCR_asset_run_template.ipynb'을 수행하기 위해, ipykernel을 설치해 줍니다.***   
 <br />
-```
+
 \$ pip install ipykernel   
 \$ python -m ipykernel install --user --name gcr_solution   
-```
 <br />
 
 
@@ -136,10 +135,10 @@ git clone http://mod.lge.com/hub/dxadvtech/aicontents/gcr.git solution
 여기서 주어진 문제를 위해 input과 output asset들이 customized되어 있다면 이것이 곧 GCR 기반의 AI solution입니다.     
 <br />
 
-\\$ cd aisolution_gcr_2.0.0/gcr_solution   
-\\$ python main.py                    -> train/inference pipeline 일괄 수행   
-\\$ python main.py --mode train       -> train pipeline 수행    
-\\$ python main.py --mode inference   -> inference pipeline 수행   
+\$ cd aisolution_gcr_2.0.0/gcr_solution   
+\$ python main.py                    -> train/inference pipeline 일괄 수행   
+\$ python main.py --mode train       -> train pipeline 수행    
+\$ python main.py --mode inference   -> inference pipeline 수행   
 <br />
 
 - 아래 코드 블럭을 실행하면 GCR이 실행되고 이때 자동으로 `experimental_plan.yaml`을 참조합니다. 
