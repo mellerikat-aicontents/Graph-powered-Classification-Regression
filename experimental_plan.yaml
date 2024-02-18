@@ -43,7 +43,7 @@ user_parameters:
         - step: train
           args:
             - task:                         # (str), classification(default) | regression
-            - epochs:                       # (int), 10(default)
+              epochs:                       # (int), 10(default)
           ui_args:
             - model_type
             - evaluation_metric
