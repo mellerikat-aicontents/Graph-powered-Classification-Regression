@@ -128,6 +128,20 @@ external_path의 load_train_data_path에 아래와 같이 사용할 데이터의
 <br />
 
 
+***NOTE!***
+만일 python main.py 결과, pip의 wheel 문제로 아래와 같은 에러가 발생한다면, \rm -rf ~/.cache/pip 를 수행해 cached된 wheel 정보를 지우고 다시 python main.py를 수행하면 되니 참고 부탁 드립니다.
+
+```
+Collecting nvidia-cusolver-cu11==11.4.0.1 (from torch==2.0.0)
+  Using cached nvidia_cusolver_cu11-11.4.0.1-2-py3-none-manylinux1_x86_64.whl (102.6 MB)
+ERROR: THESE PACKAGES DO NOT MATCH THE HASHES FROM THE REQUIREMENTS FILE. If you have updated the package versions, pleaseupdate the hashes. Otherwise, examine the package contents carefully; someone may have tampered with them.
+    nvidia-cusolver-cu11==11.4.0.1 from https://files.pythonhosted.org/packages/3e/77/66149e3153b19312fb782ea367f3f950123b93916a45538b573fe373570a/nvidia_cusolver_cu11-11.4.0.1-2-py3-none-manylinux1_x86_64.whl (from torch==2.0.0):
+        Expected sha256 72fa7261d755ed55c0074960df5904b65e2326f7adce364cbe4945063c1be412
+             Got        4488c7e6c8b220045a92e1ca98441adf84bfa8bc7a8a2d38e0498700a94a4a70
+```
+
+
+
 - GCR 구동을 위해서는 분석 데이터에 대한 정보 및 사용할 GCR 기능이 기록된 yaml파일이 필요합니다.  
 - GCR default yaml파일인 `experimental_plan.yaml`의 argument를 변경하여 분석하고 싶은 데이터에 GCR을 적용할 수 있습니다.
 - 필수적으로 수정해야하는 ***arguments***는 아래와 같습니다. 
