@@ -39,7 +39,10 @@ user_parameters:
           args:
             - task:                         # (str), classification(default) | regression
               epochs: 1                      # (int), 10(default)
-      
+        
+        - step: output
+          args:
+
                                                       
     - inference_pipeline:
         - step: input
@@ -57,6 +60,9 @@ user_parameters:
             - x_columns
 
         - step: inference
+          args:
+        
+        - step: output
           args:
 
    
@@ -89,6 +95,15 @@ asset_source:
               - pandas==1.5.3
               - torch==2.0.0
               - requirements.txt
+        
+        - step: output
+          source:
+            code: http://mod.lge.com/hub/dxadvtech/assets/output.git
+            # code: local
+            branch: output_dev
+            requirements:
+              - requirements.txt
+
 
    
     - inference_pipeline:
@@ -107,6 +122,14 @@ asset_source:
             requirements:
               - pandas==1.5.3
               - torch==2.0.0
+              - requirements.txt
+        
+        - step: output
+          source:
+            #code: http://mod.lge.com/hub/dxadvtech/assets/output.git
+            code: local
+            branch: output_dev
+            requirements:
               - requirements.txt
 
      
