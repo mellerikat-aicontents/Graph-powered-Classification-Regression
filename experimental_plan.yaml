@@ -19,15 +19,9 @@ user_parameters:
               x_columns:                  # (list)
               use_all_x: True             # (bool), True | False
               y_column: target            # (str) 
-              groupkey_columns:
               drop_columns:
-              time_column:
-              concat_dataframes:
               encoding:                   # (str), utf-8(default) | cp949
-          ui_args:
-            - x_columns
-            - y_column
-          
+
         - step: graph
           args:       
             - dimension: 64                # (int), 64(default), dimension > 1 & even
@@ -51,13 +45,8 @@ user_parameters:
               x_columns:               # (list)
               use_all_x: True          # (bool), True | False 
               y_column: 
-              groupkey_columns:
               drop_columns:
-              time_column:
-              concat_dataframes:
               encoding:  
-          ui_args:
-            - x_columns
 
         - step: inference
           args:
