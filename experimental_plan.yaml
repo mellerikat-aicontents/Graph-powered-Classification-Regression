@@ -150,7 +150,7 @@ asset_source:
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/gfe.git
             # code: local
-            branch: develop
+            branch: release-2.0.0
             requirements:
               - torch==2.0.0
               - requirements.txt
@@ -202,7 +202,7 @@ asset_source:
         - step: inference1
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/gfe.git
-            branch: develop
+            branch: release-2.0.0
             requirements:
               - pandas==1.5.3
               - torch==2.0.0
