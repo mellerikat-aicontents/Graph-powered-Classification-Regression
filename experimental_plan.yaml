@@ -1,4 +1,6 @@
 ## load data from external_path
+name: Graph Classification/Regression # v2.0.0
+
 external_path:
     - load_train_data_path: ./solution/sample_data/train
     - load_inference_data_path: ./solution/sample_data/test
@@ -7,7 +9,7 @@ external_path:
     - load_model_path: 
 
 external_path_permission:
-    - s3_private_key_file:
+    - aws_key_profile:
  
 ## Parameter setting for experiment 
 ## 
