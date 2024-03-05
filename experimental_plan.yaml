@@ -1,5 +1,5 @@
 ## load data from external_path
-name: Graph Classification/Regression # v2.0.0
+name: Graph Classification/Regression # GCR 2.1.0 # ALO 2.2.1
 
 external_path:
     - load_train_data_path: ./solution/sample_data/train
@@ -9,7 +9,8 @@ external_path:
     - load_model_path: 
 
 external_path_permission:
-    - aws_key_profile:
+    - aws_key_profile:  # ALO 2.2.1
+#    - s3_private_key_file:  # ALO 2.2
  
 ## Parameter setting for experiment 
 ## 
@@ -20,9 +21,19 @@ user_parameters:
             - input_path: train           # (str)
               x_columns:                  # (list)
               use_all_x: True             # (bool), True | False
-              y_column: target            # (str) 
+              y_column: TRAIN_LABEL       # (str) 
               drop_columns:
               encoding:                   # (str), utf-8(default) | cp949
+          ui_args:
+            - x_columns
+            - y_column
+
+        - step: readiness
+          args:
+            - x_columns:                   # (list of str)
+              y_column: TRAIN_LABEL        # (str)
+              groupkey_columns:            # (list of str)
+              center_node_column: Lead_No  # (str)
 
         - step: graph
           args:       
@@ -30,11 +41,17 @@ user_parameters:
               num_epochs: 1                 # (int), 10(default)
               num_partitions:               # (int), 1(default)
               use_gpu:                      # (bool), False(default) | True
+          ui_args:
+            - dimension
+            - num_epochs
         
         - step: train
           args:
             - task:                         # (str), classification(default) | regression
               epochs: 1                      # (int), 10(default)
+          ui_args:
+            - task
+            - epochs
         
         - step: output
           args:
@@ -49,6 +66,15 @@ user_parameters:
               y_column: 
               drop_columns:
               encoding:  
+          ui_args:
+            - x_columns
+
+        - step: readiness
+          args:
+            - x_columns:                # (list of str)
+              y_column:                 # (str)
+              groupkey_columns:         # (list of str)
+              center_node_column: Lead_No    # (str)
 
         - step: inference
           args:
@@ -77,6 +103,14 @@ asset_source:
               - torch==2.0.0
               - requirements.txt
 
+        - step: readiness
+          source:
+            code: http://mod.lge.com/hub/dxadvtech/assets/readiness.git
+            # code: local
+            branch: gcr-0.9.0
+            requirements:
+              - pandas==1.5.3
+
         - step: train
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/gdt.git
@@ -103,6 +137,14 @@ asset_source:
            # code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/input.git
             code: local
             branch: tabular_2.0
+            requirements:
+              - pandas==1.5.3
+
+        - step: readiness
+          source:
+            code: http://mod.lge.com/hub/dxadvtech/assets/readiness.git
+            # code: local
+            branch: gcr-0.9.0
             requirements:
               - pandas==1.5.3
 
