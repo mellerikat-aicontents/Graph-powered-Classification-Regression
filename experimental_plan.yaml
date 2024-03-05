@@ -18,12 +18,12 @@ user_parameters:
     - train_pipeline:
         - step: input
           args:
-            - input_path: train           # (str)
-              x_columns:                  # (list)
-              use_all_x: True             # (bool), True | False
-              y_column: TRAIN_LABEL       # (str) 
+            - input_path: train            # (str)
+              x_columns:                   # (list)
+              use_all_x: True              # (bool), True | False
+              y_column: TRAIN_LABEL        # (str) 
               drop_columns:
-              encoding:                   # (str), utf-8(default) | cp949
+              encoding:                    # (str), utf-8(default) | cp949
           ui_args:
             - x_columns
             - y_column
@@ -38,17 +38,17 @@ user_parameters:
         - step: graph
           args:       
             - dimension: 64                # (int), 64(default), dimension > 1 & even
-              num_epochs: 1                 # (int), 10(default)
-              num_partitions:               # (int), 1(default)
-              use_gpu:                      # (bool), False(default) | True
+              num_epochs: 1                # (int), 10(default)
+              num_partitions:              # (int), 1(default)
+              use_gpu:                     # (bool), False(default) | True
           ui_args:
             - dimension
             - num_epochs
         
         - step: train
           args:
-            - task:                         # (str), classification(default) | regression
-              epochs: 1                      # (int), 10(default)
+            - task:                        # (str), classification(default) | regression
+              epochs: 1                    # (int), 10(default)
           ui_args:
             - task
             - epochs
@@ -94,6 +94,14 @@ asset_source:
             requirements:
               - pandas==1.5.3
         
+        - step: readiness
+          source:
+            code: http://mod.lge.com/hub/dxadvtech/assets/readiness.git
+            # code: local
+            branch: gcr-0.9.0
+            requirements:
+              - pandas==1.5.3
+
         - step: graph
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/gfe.git
@@ -102,14 +110,6 @@ asset_source:
             requirements:
               - torch==2.0.0
               - requirements.txt
-
-        - step: readiness
-          source:
-            code: http://mod.lge.com/hub/dxadvtech/assets/readiness.git
-            # code: local
-            branch: gcr-0.9.0
-            requirements:
-              - pandas==1.5.3
 
         - step: train
           source:
