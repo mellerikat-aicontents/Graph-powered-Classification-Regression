@@ -37,8 +37,8 @@ user_parameters:
 
         - step: graph
           args:       
-            - dimension: 64                # (int), 64(default), dimension > 1 & even
-              num_epochs: 1                # (int), 10(default)
+            - dimension: 32                # (int), 64(default), dimension > 1 & even
+              num_epochs: 10               # (int), 10(default)
               num_partitions:              # (int), 1(default)
               use_gpu:                     # (bool), False(default) | True
           ui_args:
@@ -48,7 +48,7 @@ user_parameters:
         - step: train
           args:
             - task:                        # (str), classification(default) | regression
-              epochs: 1                    # (int), 10(default)
+              epochs: 10                   # (int), 10(default)
           ui_args:
             - task
             - epochs
