@@ -1,5 +1,6 @@
 ## load data from external_path
 name: Graph Classification/Regression # v2.0.0
+version: v3.0
 
 external_path:
     - load_train_data_path: ./solution/sample_data/train
