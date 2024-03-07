@@ -1,10 +1,12 @@
+name: Graph Classification/Regression # v2.0.0
+
 ## load data from external_path
 external_path:
     - load_train_data_path: ./solution/sample_data/train
     - load_inference_data_path: ./solution/sample_data/test
     - save_train_artifacts_path:
     - save_inference_artifacts_path:
-    - load_model_path: 
+    - aws_key_profile: 
 
 external_path_permission:
     - s3_private_key_file:
@@ -18,7 +20,7 @@ user_parameters:
             - input_path: train           # (str)
               x_columns:                  # (list)
               use_all_x: True             # (bool), True | False
-              y_column: TRAIN_LABEL       # (str) 
+              y_column: target            # (str) 
               groupkey_columns:
               drop_columns:
               time_column:
@@ -31,16 +33,16 @@ user_parameters:
         - step: readiness
           args:
             - x_columns:                   # (list of str)
-              y_column: TRAIN_LABEL        # (str)
+              y_column: target             # (str)
               groupkey_columns:            # (list of str)
-              center_node_column: Lead_No  # (str)
+              center_node_column: ID       # (str)
           
         - step: train1
           args:       
-            - center_node_column: Lead_No   # (str), automatic selection of columns with the most unique values, ex CUSTOMER_ID(default)        
-              embedding_column: Lead_No     # (str), center_node_column(default)
+            - center_node_column: ID        # (str), automatic selection of columns with the most unique values, ex CUSTOMER_ID(default)        
+              embedding_column: ID          # (str), center_node_column(default)
               dimension: 32                 # (int), 256(default), dimension > 1 & even
-              num_epochs: 10                # (int), 10(default)
+              num_epochs: 1                 # (int), 10(default)
               num_partitions:               # (int), 1(default)
               use_gpu:                      # (bool), False(default) | True
           ui_args:
@@ -51,7 +53,7 @@ user_parameters:
         - step: preprocess
           args:
             - handling_missing: interpolation         # (str), interpolation | fill_number | dropna
-              handling_encoding_y_column: TRAIN_LABEL       # (str)
+              handling_encoding_y_column: target      # (str)
               handling_encoding_y: label              # (str), none | label | ordinal | binary | onehot | hashing
               handling_scaling_x: none                # (str)  
               load_train_preprocess: False            # (For inference workflow) False(default, in train pipeline)
@@ -103,7 +105,7 @@ user_parameters:
             - x_columns:                # (list of str)
               y_column:                 # (str)
               groupkey_columns:         # (list of str)
-              center_node_column: Lead_No    # (str)
+              center_node_column: ID    # (str)
 
         - step: inference1
           args:
