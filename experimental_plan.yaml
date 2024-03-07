@@ -1,6 +1,4 @@
 ## load data from external_path
-name: Graph Classification/Regression # GCR 2.1.0 # ALO 2.2.1
-
 external_path:
     - load_train_data_path: ./solution/sample_data/train
     - load_inference_data_path: ./solution/sample_data/test
@@ -9,8 +7,7 @@ external_path:
     - load_model_path: 
 
 external_path_permission:
-    - aws_key_profile:  # ALO 2.2.1
-#    - s3_private_key_file:  # ALO 2.2
+    - s3_private_key_file:
  
 ## Parameter setting for experiment 
 ## 
@@ -18,12 +15,15 @@ user_parameters:
     - train_pipeline:
         - step: input
           args:
-            - input_path: train            # (str)
-              x_columns:                   # (list)
-              use_all_x: True              # (bool), True | False
-              y_column: TRAIN_LABEL        # (str) 
+            - input_path: train           # (str)
+              x_columns:                  # (list)
+              use_all_x: True             # (bool), True | False
+              y_column: TRAIN_LABEL       # (str) 
+              groupkey_columns:
               drop_columns:
-              encoding:                    # (str), utf-8(default) | cp949
+              time_column:
+              concat_dataframes:
+              encoding:                   # (str), utf-8(default) | cp949
           ui_args:
             - x_columns
             - y_column
@@ -34,41 +34,70 @@ user_parameters:
               y_column: TRAIN_LABEL        # (str)
               groupkey_columns:            # (list of str)
               center_node_column: Lead_No  # (str)
-
-        - step: graph
+          
+        - step: train1
           args:       
-            - dimension: 32                # (int), 64(default), dimension > 1 & even
-              num_epochs: 10               # (int), 10(default)
-              num_partitions:              # (int), 1(default)
-              use_gpu:                     # (bool), False(default) | True
+            - center_node_column: Lead_No   # (str), automatic selection of columns with the most unique values, ex CUSTOMER_ID(default)        
+              embedding_column: Lead_No     # (str), center_node_column(default)
+              dimension: 32                 # (int), 256(default), dimension > 1 & even
+              num_epochs: 10                # (int), 10(default)
+              num_partitions:               # (int), 1(default)
+              use_gpu:                      # (bool), False(default) | True
           ui_args:
+            - center_node_column
             - dimension
             - num_epochs
-        
-        - step: train
+
+        - step: preprocess
           args:
-            - task:                        # (str), classification(default) | regression
-              epochs: 10                   # (int), 10(default)
-          ui_args:
-            - task
-            - epochs
+            - handling_missing: interpolation         # (str), interpolation | fill_number | dropna
+              handling_encoding_y_column: TRAIN_LABEL       # (str)
+              handling_encoding_y: label              # (str), none | label | ordinal | binary | onehot | hashing
+              handling_scaling_x: none                # (str)  
+              load_train_preprocess: False            # (For inference workflow) False(default, in train pipeline)
         
+        - step: train2
+          args:
+            - model_type: classification               # (str), classification(default) | regression
+              data_split_method: cross_validate        # (str), cross_validate | train_test_split
+              evaluation_metric: precision             # (str), classification: accuracy, precision, recall, f1-score | regression: mse, r2, mae, rmse
+              model_list: [lgb]                        # (list), [lgb](default)
+              num_hpo: 3                               # (int), 3(default)
+              param_range: {
+                rf: {max_depth: 6, n_estimators: [300, 500]},
+                gbm: {max_depth: [5, 7], n_estimators: [300, 500]},
+                ngb: {col_sample: [0.6, 0.8], n_estimators:[100, 300]},               
+                lgb: {max_depth:[5, 9], n_estimators:[300, 500]},
+                cb: {max_depth:[5, 9], n_estimators:[100, 500]},
+              }                                       # (dict) 
+                                                      
+              shap_ratio: 0.001
+                                                      # (float) 
+          ui_args:
+            - model_type
+            - evaluation_metric
+            - shap_ratio
+
         - step: output
           args:
-
+      
                                                       
+   
     - inference_pipeline:
         - step: input
           args:
             - input_path: test         # (str)
               x_columns:               # (list)
-              use_all_x: True          # (bool), True | False 
-              y_column: 
-              drop_columns:
+              use_all_x: true          # (bool), True | False 
+              y_column:      
+              groupkey_columns:
+              drop_columns: 
+              time_column:
+              concat_dataframes:
               encoding:  
           ui_args:
             - x_columns
-
+                
         - step: readiness
           args:
             - x_columns:                # (list of str)
@@ -76,12 +105,27 @@ user_parameters:
               groupkey_columns:         # (list of str)
               center_node_column: Lead_No    # (str)
 
-        - step: inference
+        - step: inference1
           args:
-        
+              
+        - step: preprocess
+          args:
+            - handling_missing: interpolation  # (str)
+              handling_encoding_y_column:  
+              limit_encoding_categories: 30    # (int) 
+              load_train_preprocess: True      # (bool) True(default)
+
+        - step: inference2
+          args:
+            - model_type: classification      # (str), classification(default) | regression
+              run_shapley: False
+
+        # - step: result
+        #   args:
+        #     - result_save_name:               # (str) Default = output.csv
+
         - step: output
           args:
-
    
 ## asset information       
 asset_source:
@@ -93,7 +137,7 @@ asset_source:
             branch: tabular_2.0
             requirements:
               - pandas==1.5.3
-        
+
         - step: readiness
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/readiness.git
@@ -101,24 +145,33 @@ asset_source:
             branch: gcr-0.9.0
             requirements:
               - pandas==1.5.3
-
-        - step: graph
+        
+        - step: train1
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/gfe.git
             # code: local
-            branch: feature/dnn
+            branch: release-2.0.0
             requirements:
               - torch==2.0.0
               - requirements.txt
 
-        - step: train
-          source:
-            code: http://mod.lge.com/hub/dxadvtech/assets/gdt.git
-            branch: release-1.0.0
+        - step: preprocess
+          source:  ## git | local
+            code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/preprocess.git
+            # code: local
+            branch: release-1.2
             requirements:
               - pandas==1.5.3
-              - torch==2.0.0
-              - requirements.txt
+              - category_encoders
+
+        - step: train2
+          source:
+            code: http://mod.lge.com/hub/dxadvtech/assets/tcr.git
+            # code: local
+            branch: tcr_v1.1.4
+            requirements:
+              - requirements.txt 
+              - numpy==1.25.2 --force-reinstall 
         
         - step: output
           source:
@@ -127,7 +180,6 @@ asset_source:
             branch: output_dev
             requirements:
               - requirements.txt
-
 
    
     - inference_pipeline:
@@ -147,23 +199,45 @@ asset_source:
             requirements:
               - pandas==1.5.3
 
-        - step: inference
+        - step: inference1
           source:
-            code: http://mod.lge.com/hub/dxadvtech/assets/gdt.git
-            branch: release-1.0.0
+            code: http://mod.lge.com/hub/dxadvtech/assets/gfe.git
+            branch: release-2.0.0
             requirements:
               - pandas==1.5.3
               - torch==2.0.0
               - requirements.txt
-        
+
+        - step: preprocess
+          source:  ## git | local
+           # code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/preprocess.git
+            code: local
+            branch: release-1.2
+            requirements:
+              - pandas==1.5.3
+
+        - step: inference2
+          source:
+            code: http://mod.lge.com/hub/dxadvtech/assets/tcr.git
+            # code: local
+            branch: tcr_v1.1.4
+            requirements:
+              - pandas==1.5.3
+              
+        # - step: result
+        #   source:
+        #     code: http://mod.lge.com/hub/dxadvtech/assets/gfe.git
+        #     branch: develop
+        #     requirements:
+        #       - pandas==1.5.3
+                
         - step: output
           source:
-            #code: http://mod.lge.com/hub/dxadvtech/assets/output.git
-            code: local
+            code: http://mod.lge.com/hub/dxadvtech/assets/output.git
+            # code: local
             branch: output_dev
             requirements:
               - requirements.txt
-
      
 control:
     ## 1. 패키지 설치 및 asset 존재 여부를 실험 시마다 체크할지, 한번만 할지 결정
