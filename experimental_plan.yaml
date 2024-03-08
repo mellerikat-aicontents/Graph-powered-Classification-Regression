@@ -67,6 +67,7 @@ asset_source:
             # code: local
             branch: tabular_2.0
             requirements:
+              - torch==2.0.0
               - pandas==1.5.3
         
         - step: graph
@@ -75,7 +76,6 @@ asset_source:
             # code: local
             branch: feature/dnn
             requirements:
-              - torch==2.0.0
               - requirements.txt
 
         - step: train
