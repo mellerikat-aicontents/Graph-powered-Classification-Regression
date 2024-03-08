@@ -1,4 +1,5 @@
 name: Graph Classification/Regression # v2.0.0
+version: v2.0.0
 
 ## load data from external_path
 external_path:
