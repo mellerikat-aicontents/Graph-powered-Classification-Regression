@@ -140,6 +140,7 @@ asset_source:
             branch: tabular_2.0
             requirements:
               - pandas==1.5.3
+              - torch==2.0.0
 
         - step: readiness
           source:
@@ -193,6 +194,7 @@ asset_source:
             branch: tabular_2.0
             requirements:
               - pandas==1.5.3
+              - torch==2.0.0
 
         - step: readiness
           source:
