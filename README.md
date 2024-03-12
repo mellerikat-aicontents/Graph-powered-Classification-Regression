@@ -36,7 +36,7 @@
 <br />
 
 이 때, 사용할 GCR version에 맞는 ALO version 설치가 필요합니다.   
-GCR 2.0.0을 사용하기 위해서는 ALO version 2.2를 설치합니다.   
+GCR 2.0.0을 사용하기 위해서는 ALO version 2.3.0를 설치합니다.   
 <br />
 
 작업 directory를 준비합니다 (여기에서는 예를 들어 aisolution_gcr_2.0.0이라는 directory를 생성합니다).   
