@@ -1,6 +1,6 @@
 ## load data from external_path
-name: Graph Classification/Regression # v2.0.0
-version: v3.0
+name: Graph Classification/Regression
+version: 3.0.0
 
 external_path:
     - load_train_data_path: ./solution/sample_data/train
@@ -135,6 +135,7 @@ control:
     - backup_log: True
     ## 4. 저장 공간 사이즈를 결정 (단위 MB)
     - backup_size: 1000
- 
     ## 5. Asset 사이 데이터 전달 방법으로 memory, file 를 지원
     - interface_mode: memory
+
+ui_args_detail: []
