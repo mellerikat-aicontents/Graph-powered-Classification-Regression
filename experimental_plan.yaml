@@ -1,5 +1,6 @@
 ## load data from external_path
 name: Graph Classification/Regression # GCR 2.1.0 # ALO 2.2.1
+#version: v2.1.0
 
 external_path:
     - load_train_data_path: ./solution/sample_data/train
@@ -39,6 +40,7 @@ user_parameters:
           args:       
             - dimension: 32                # (int), 64(default), dimension > 1 & even
               num_epochs: 10               # (int), 10(default)
+              #num_epochs: 1                # (int), 10(default)
               num_partitions:              # (int), 1(default)
               use_gpu:                     # (bool), False(default) | True
           ui_args:
@@ -93,6 +95,7 @@ asset_source:
             branch: tabular_2.0
             requirements:
               - pandas==1.5.3
+              - torch==2.0.0
         
         - step: readiness
           source:
@@ -106,7 +109,8 @@ asset_source:
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/gfe.git
             # code: local
-            branch: feature/dnn
+            # branch: feature/dnn
+            branch: release-2.1.0
             requirements:
               - torch==2.0.0
               - requirements.txt
