@@ -172,7 +172,7 @@ asset_source:
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/tcr.git
             # code: local
-            branch: tcr_dev_soluti
+            branch: tcr_dev_solution
             requirements:
               - requirements.txt 
               - numpy==1.25.2 --force-reinstall 
