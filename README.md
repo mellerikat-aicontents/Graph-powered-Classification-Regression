@@ -50,7 +50,7 @@ AI solution name (예를 들어 gcr_solution)으로 ALO를 설치합니다.
 이러면 gcr_solution이라는 directory가 생기고 그 안에 GCR을 설치하게 됩니다 (GCR 기반 AI solution 작업도 그곳에서 진행합니다).
 <br />
 
-\$ git clone http://mod.lge.com/hub/dxadvtech/aicontents-framework/alo.git -b release-2.2 gcr_solution   
+\$ git clone http://mod.lge.com/hub/dxadvtech/aicontents-framework/alo.git -b v2.3.0 gcr_solution   
 \$ cd gcr_solution   
 <br />
 
