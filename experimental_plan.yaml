@@ -259,3 +259,82 @@ control:
  
     ## 5. Asset 사이 데이터 전달 방법으로 memory, file 를 지원
     - interface_mode: memory
+
+ui_args_detail:
+    - train_pipeline:
+        - step: input
+          args:
+              - name: x_columns
+                description: GCR 모델링에 사용될 x columns를 ","로 구분하여 기입합니다. ex) x_column1, x_column2
+                type: string
+                default: ''
+                range:
+                  - 1
+                  - 1000000
+              - name: y_column
+                description: GCR 모델링에 사용 될 y column명을 기입합니다. ex) y_column
+                type: string
+                default: ''
+                range:
+                  - 1
+                  - 1000000
+
+        - step: train1
+          args:
+              - name: center_node_column
+                description: PBG에서 Graph를 구성하는 중심 노드를 기입합니다
+                type: string
+                default: ''
+                range:
+                  - 1
+                  - 1000000
+              - name: dimension
+                description: embedding vector의 차원 수를 기입합니다. (dimension>1 & even)
+                type: integer
+                default: 256
+                range:
+                  - 2
+                  - 1024
+              - name: num_epochs
+                description: 학습 epoch 수를 기입합니다.
+                type: integer
+                default: 10
+                range:
+                  - 1
+                  - 30
+        - step: train2
+          args:
+              - name: model_type
+                description: 학습 유형을 선택합니다
+                type: single_selection
+                default: classification
+                selectable:
+                  - classification
+                  - regression
+              - name: evaluation_metric
+                description: TCR 학습 시 best 모델 선정 기준을 선택합니다.
+                type: single_selection
+                default: accuracy
+                selectable:
+                  - accuracy
+                  - precision
+                  - recall
+                  - f1-score
+              - name: shap_ratio
+                description: 학습에 사용된 데이터 중 입력한 비율 만큼 shapley value를 출력합니다.
+                type: float
+                default: 0.1
+                range:
+                  - 0.001
+                  - 0.99
+
+    - inference_pipeline:
+        - step: input
+          args:
+              - name: x_columns
+                description: GCR 모델링에 사용될 x columns를 ','로 구분하여 기입합니다. ex) x_column1, x_column2
+                type: string
+                default:
+                range:
+                  - 1
+                  - 1000000
