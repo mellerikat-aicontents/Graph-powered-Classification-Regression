@@ -38,9 +38,12 @@ user_parameters:
 
         - step: graph
           args:       
-            - dimension: 32                # (int), 64(default), dimension > 1 & even
-              num_epochs: 10               # (int), 10(default)
-              #num_epochs: 1                # (int), 10(default)
+            - 
+              #dimension: 32                # (int), 64(default), dimension > 1 & even
+              dimension: 16                # (int), 64(default), dimension > 1 & even
+              #dimension: 64                # (int), 64(default), dimension > 1 & even
+              #num_epochs: 10               # (int), 10(default)
+              num_epochs: 3                # (int), 10(default)
               num_partitions:              # (int), 1(default)
               use_gpu:                     # (bool), False(default) | True
           ui_args:
