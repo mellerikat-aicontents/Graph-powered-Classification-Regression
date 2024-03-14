@@ -39,11 +39,11 @@ user_parameters:
         - step: graph
           args:       
             - 
-              #dimension: 32                # (int), 64(default), dimension > 1 & even
-              dimension: 16                # (int), 64(default), dimension > 1 & even
               #dimension: 64                # (int), 64(default), dimension > 1 & even
-              #num_epochs: 10               # (int), 10(default)
-              num_epochs: 3                # (int), 10(default)
+              dimension: 32                # (int), 64(default), dimension > 1 & even
+              #dimension: 16                # (int), 64(default), dimension > 1 & even
+              num_epochs: 10               # (int), 10(default)
+              #num_epochs: 3                # (int), 10(default)
               num_partitions:              # (int), 1(default)
               use_gpu:                     # (bool), False(default) | True
           ui_args:
@@ -53,10 +53,11 @@ user_parameters:
         - step: train
           args:
             - task:                        # (str), classification(default) | regression
-              epochs: 10                   # (int), 10(default)
+              eval_metric: f1_score        # (str), accuracy | precision | recall | f1_score (default) | rmse (regression)
+              num_hpo: 20                  # (int), 20(default)
+
           ui_args:
             - task
-            - epochs
         
         - step: output
           args:
@@ -65,9 +66,9 @@ user_parameters:
     - inference_pipeline:
         - step: input
           args:
-            - input_path: test         # (str)
-              x_columns:               # (list)
-              use_all_x: True          # (bool), True | False 
+            - input_path: test             # (str)
+              x_columns:                   # (list)
+              use_all_x: True              # (bool), True | False 
               y_column: 
               drop_columns:
               encoding:  
@@ -76,13 +77,18 @@ user_parameters:
 
         - step: readiness
           args:
-            - x_columns:                # (list of str)
-              y_column:                 # (str)
-              groupkey_columns:         # (list of str)
-              center_node_column: Lead_No    # (str)
+            - x_columns:                   # (list of str)
+              y_column:                    # (str)
+              groupkey_columns:            # (list of str)
+              center_node_column: Lead_No  # (str)
 
         - step: inference
           args:
+            - global_xai: False            # (bool), True | False (default)
+              local_xai: False             # (bool), True | False (default)
+          ui_args:
+            - global_xai
+            - local_xai
         
         - step: output
           args:
