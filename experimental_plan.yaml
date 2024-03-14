@@ -1,6 +1,6 @@
 ## load data from external_path
-name: Graph Classification/Regression # GCR 2.1.0 # ALO 2.2.1
-#version: v2.1.0
+name: Graph Classification/Regression # GCR 2.1.0
+version: v2.1.0
 
 external_path:
     - load_train_data_path: ./solution/sample_data/train
@@ -10,8 +10,7 @@ external_path:
     - load_model_path: 
 
 external_path_permission:
-    - aws_key_profile:  # ALO 2.2.1
-#    - s3_private_key_file:  # ALO 2.2
+    - aws_key_profile:
  
 ## Parameter setting for experiment 
 ## 
@@ -58,11 +57,12 @@ user_parameters:
 
           ui_args:
             - task
+            - eval_metric
+            - num_hpo
         
         - step: output
           args:
 
-                                                      
     - inference_pipeline:
         - step: input
           args:
@@ -92,7 +92,6 @@ user_parameters:
         
         - step: output
           args:
-
    
 ## asset information       
 asset_source:
@@ -100,7 +99,6 @@ asset_source:
         - step: input
           source:  ## git | local 
             code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/input.git
-            # code: local
             branch: tabular_2.0
             requirements:
               - pandas==1.5.3
@@ -109,7 +107,6 @@ asset_source:
         - step: readiness
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/readiness.git
-            # code: local
             branch: gcr-0.9.0
             requirements:
               - pandas==1.5.3
@@ -117,8 +114,6 @@ asset_source:
         - step: graph
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/gfe.git
-            # code: local
-            # branch: feature/dnn
             branch: release-2.1.0
             requirements:
               - torch==2.0.0
@@ -136,17 +131,14 @@ asset_source:
         - step: output
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/output.git
-            # code: local
             branch: output_dev
             requirements:
               - requirements.txt
-
-
    
     - inference_pipeline:
         - step: input
           source:  ## git | local
-           # code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/input.git
+            # code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/input.git
             code: local
             branch: tabular_2.0
             requirements:
@@ -155,7 +147,6 @@ asset_source:
         - step: readiness
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/readiness.git
-            # code: local
             branch: gcr-0.9.0
             requirements:
               - pandas==1.5.3
@@ -171,19 +162,18 @@ asset_source:
         
         - step: output
           source:
-            #code: http://mod.lge.com/hub/dxadvtech/assets/output.git
+            # code: http://mod.lge.com/hub/dxadvtech/assets/output.git
             code: local
             branch: output_dev
             requirements:
               - requirements.txt
-
      
 control:
     ## 1. 패키지 설치 및 asset 존재 여부를 실험 시마다 체크할지, 한번만 할지 결정
     ## 1-2 requirements.txt 및 종속 패키지들 한번만 설치할 지 매번 설치할지도 결정 
     - get_asset_source: once ## once, every
     # TODO 아래 get_external_data 제작하기
-    - get_external_data: every ## once, every
+    #- get_external_data: every ## once, every
     ## 2. 생성된 artifacts 를 backup 할지를 결정 True/False
     - backup_artifacts: True
     ## 3. pipeline 로그를 backup 할지를 결정 True/False
@@ -193,3 +183,93 @@ control:
  
     ## 5. Asset 사이 데이터 전달 방법으로 memory, file 를 지원
     - interface_mode: memory
+
+ui_args_detail:
+    - train_pipeline:
+        - step: input
+          args:
+              - name: x_columns
+                description: GCR 모델링에 사용될 x columns를 ","로 구분하여 기입합니다. ex) x_column1, x_column2
+                type: string
+                default: ''
+                range:
+                  - 1
+                  - 1000000
+              - name: y_column
+                description: GCR 모델링에 사용 될 y column명을 기입합니다. ex) y_column
+                type: string
+                default: ''
+                range:
+                  - 1
+                  - 1000000
+
+        - step: graph
+          args:
+              - name: dimension
+                description: embedding vector의 차원 수를 기입합니다. (dimension>1 & even)
+                type: int
+                default: 256
+                range:
+                  - 2
+                  - 1024
+              - name: num_epochs
+                description: 학습 epoch 수를 기입합니다.
+                type: int
+                default: 10
+                range:
+                  - 1
+                  - 30
+
+        - step: train
+          args:
+              - name: task
+                description: 학습 유형을 선택합니다
+                type: single_selection
+                default: classification
+                selectable:
+                  - classification
+                  - regression
+              - name: eval_metric
+                description: GCR 학습 시 best 모델 선정 기준을 선택합니다.
+                type: single_selection
+                default: f1_score
+                selectable:
+                  - accuracy
+                  - precision
+                  - recall
+                  - f1_score
+              - name: num_hpo
+                description: GCR 학습 시 HPO 횟수를 선택합니다.
+                type: int
+                default: 20
+                range:
+                  - 1
+                  - 1000
+
+    - inference_pipeline:
+        - step: input
+          args:
+              - name: x_columns
+                description: GCR 모델링에 사용될 x columns를 ','로 구분하여 기입합니다. ex) x_column1, x_column2
+                type: string
+                default:
+                range:
+                  - 1
+                  - 1000000
+
+        - step: inference
+          args:
+              - name: global_xai
+                description: Global Graph XAI 제공 여부를 선택합니다.
+                type: single_selection
+                default: False
+                selectable:
+                  - True
+                  - False
+              - name: local_xai
+                description: Local Graph XAI 제공 여부를 선택합니다.
+                type: single_selection
+                default: False
+                selectable:
+                  - True
+                  - False
