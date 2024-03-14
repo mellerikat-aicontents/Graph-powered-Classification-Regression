@@ -290,14 +290,14 @@ ui_args_detail:
                   - 1000000
               - name: dimension
                 description: embedding vector의 차원 수를 기입합니다. (dimension>1 & even)
-                type: integer
+                type: int
                 default: 256
                 range:
                   - 2
                   - 1024
               - name: num_epochs
                 description: 학습 epoch 수를 기입합니다.
-                type: integer
+                type: int
                 default: 10
                 range:
                   - 1
