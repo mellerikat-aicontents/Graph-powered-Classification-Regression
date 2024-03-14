@@ -25,8 +25,9 @@
 - GCR은 거대 그래프 학습을 목적으로 FaceBook에서 개발한 pytorch-BigGraph를 기반으로 만들었습니다.
 - Graph Partitioning을 활용하여 적은 리소스로도 그래프 학습이 가능합니다.
 - GCR은 결측치에 강인하여 별도의 전처리 없이 model 학습이 가능합니다.
-- TCR의 HPO를 활용하여 높은 성능을 확보할 수 있는 모델을 찾습니다.
+- GCR의 downstream task model은 Optuna를 이용해 HPO를 빠르게 진행합니다.
 - Inductive graph embedding의 적용을 통해 graph embedding 기반이면서도 일반적인 machine learning model과 동일하게 inference 시 classification/regression 모델의 재학습이 필요 없습니다.
+- GCR은 global 및 local Graph XAI를 제공합니다.
 
 상세한 설명은 [documentation](http://collab.lge.com/main/pages/viewpage.action?pageId=2184972902)을 참고해주세요. 
 
@@ -36,7 +37,7 @@
 <br />
 
 이 때, 사용할 GCR version에 맞는 ALO version 설치가 필요합니다.   
-GCR 2.1.0을 사용하기 위해서는 ALO version 2.2.1를 설치합니다.   
+GCR 2.1.0을 사용하기 위해서는 ALO version 2.3를 설치합니다.   
 <br />
 
 작업 directory를 준비합니다 (여기에서는 예를 들어 aisolution_gcr_2.1.0이라는 directory를 생성합니다).   
@@ -50,7 +51,7 @@ AI solution name (예를 들어 gcr_solution)으로 ALO를 설치합니다.
 이러면 gcr_solution이라는 directory가 생기고 그 안에 GCR을 설치하게 됩니다 (GCR 기반 AI solution 작업도 그곳에서 진행합니다).
 <br />
 
-\$ git clone http://mod.lge.com/hub/dxadvtech/aicontents-framework/alo.git -b release-2.2.1 gcr_solution   
+\$ git clone http://mod.lge.com/hub/dxadvtech/aicontents-framework/alo.git -b v2.3.0 gcr_solution   
 \$ cd gcr_solution   
 <br />
 
@@ -128,6 +129,20 @@ external_path의 load_train_data_path에 아래와 같이 사용할 데이터의
 <br />
 
 
+***NOTE!***
+만일 python main.py 결과, pip의 wheel 문제로 아래와 같은 에러가 발생한다면, \rm -rf ~/.cache/pip 를 수행해 cached된 wheel 정보를 지우고 다시 python main.py를 수행하면 되니 참고 부탁 드립니다.
+
+```
+Collecting nvidia-cusolver-cu11==11.4.0.1 (from torch==2.0.0)
+  Using cached nvidia_cusolver_cu11-11.4.0.1-2-py3-none-manylinux1_x86_64.whl (102.6 MB)
+ERROR: THESE PACKAGES DO NOT MATCH THE HASHES FROM THE REQUIREMENTS FILE. If you have updated the package versions, pleaseupdate the hashes. Otherwise, examine the package contents carefully; someone may have tampered with them.
+    nvidia-cusolver-cu11==11.4.0.1 from https://files.pythonhosted.org/packages/3e/77/66149e3153b19312fb782ea367f3f950123b93916a45538b573fe373570a/nvidia_cusolver_cu11-11.4.0.1-2-py3-none-manylinux1_x86_64.whl (from torch==2.0.0):
+        Expected sha256 72fa7261d755ed55c0074960df5904b65e2326f7adce364cbe4945063c1be412
+             Got        4488c7e6c8b220045a92e1ca98441adf84bfa8bc7a8a2d38e0498700a94a4a70
+```
+<br />
+
+
 - GCR 구동을 위해서는 분석 데이터에 대한 정보 및 사용할 GCR 기능이 기록된 yaml파일이 필요합니다.  
 - GCR default yaml파일인 `experimental_plan.yaml`의 argument를 변경하여 분석하고 싶은 데이터에 GCR을 적용할 수 있습니다.
 - 필수적으로 수정해야하는 ***arguments***는 아래와 같습니다. 
@@ -159,7 +174,7 @@ user_parameters:
 
 
 ## Sample notebook
-Jupyter 환경에서 Workflow 단계마다 asset을 실행하고 setting을 바꿔 실험할 수 있습니다. [Sample notebook](http://mod.lge.com/hub/dxadvtech/aicontents/gcr/-/blob/release-2.1.0/GCR_asset_run_template.ipynb)
+Jupyter 환경에서 Workflow 단계마다 asset을 실행하고 setting을 바꿔 실험할 수 있습니다. [Sample notebook](http://mod.lge.com/hub/dxadvtech/aicontents/gcr/-/blob/release-2.0.0/GCR_asset_run_template.ipynb)
 
 ## 관련 Collab
 [AICONTENTS](http://collab.lge.com/main/display/AICONTENTS)
