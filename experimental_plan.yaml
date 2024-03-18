@@ -18,23 +18,26 @@ user_parameters:
     - train_pipeline:
         - step: input
           args:
-            - input_path: train            # (str)
-              x_columns:                   # (list)
-              use_all_x: True              # (bool), True | False
-              y_column: target             # (str) 
-              drop_columns:
-              encoding:                    # (str), utf-8(default) | cp949
+            - file_type: csv               # (str) csv (default) | parquet
+              encoding: utf-8              # (str) utf-8 (default) | euc-kr | utf-16 | ascii | cp949
+              # NOTE - AI advisor supports only csv and utf-8 for now.
           ui_args:
-            - x_columns
-            - use_all_x
-            - y_column
+            - file_type
+            - encoding
 
         - step: readiness
           args:
-            - x_columns:                   # (list of str)
-              y_column: target             # (str)
-              groupkey_columns:            # (list of str)
-              center_node_column: ID       # (str)
+            - x_columns: all               # (list of str) all (default) | list of column names
+              x_columns_to_drop: none      # (list of str) none (default) | list of column names
+              y_column: TRAIN_LABEL        # (str) a column name
+              #groupkey_columns:            # (list of str) none (default) | list of column names
+              #center_node_column: Lead_No  # (str) a column name
+          ui_args:
+            - x_columns
+            - x_columns_to_drop
+            - y_column
+            #- groupkey_columns
+            #- center_node_column
 
         - step: graph
           args:       
@@ -44,18 +47,22 @@ user_parameters:
               #dimension: 16                # (int), 64(default), dimension > 1 & even
               num_epochs: 10               # (int), 10(default)
               #num_epochs: 3                # (int), 10(default)
-              num_partitions:              # (int), 1(default)
-              use_gpu:                     # (bool), False(default) | True
+              num_partitions: 1            # (int), 1(default)
+              use_gpu: False               # (bool), False(default) | True
           ui_args:
             - dimension
             - num_epochs
         
         - step: train
           args:
-            - task:                        # (str), classification(default) | regression
+            - task: classification         # (str), classification(default) | regression
               eval_metric: f1_score        # (str), accuracy | precision | recall | f1_score (default) | rmse (regression)
+              #eval_metric: accuracy        # (str), accuracy | precision | recall | f1_score (default) | rmse (regression)
+              #eval_metric: precision       # (str), accuracy | precision | recall | f1_score (default) | rmse (regression)
+              #eval_metric: recall          # (str), accuracy | precision | recall | f1_score (default) | rmse (regression)
               #num_hpo: 20                  # (int), 20(default)
               num_hpo: 10                  # (int), 20(default)
+              #num_hpo: 3                   # (int), 20(default)
 
           ui_args:
             - task
@@ -68,30 +75,34 @@ user_parameters:
     - inference_pipeline:
         - step: input
           args:
-            - input_path: test             # (str)
-              x_columns:                   # (list)
-              use_all_x: True              # (bool), True | False 
-              y_column: 
-              drop_columns:
-              encoding:  
+            - file_type: csv               # (str) csv (default) | parquet
+              encoding: utf-8              # (str) utf-8 (default) | euc-kr | utf-16 | ascii | cp949
+              # NOTE - AI advisor supports only csv and utf-8 for now.
           ui_args:
-            - x_columns
-            - use_all_x
-            - y_column
+            - file_type
+            - encoding
 
         - step: readiness
           args:
-            - x_columns:                   # (list of str)
-              y_column:                    # (str)
-              groupkey_columns:            # (list of str)
-              center_node_column: ID       # (str)
+            # NOTE - Just check if the x column list is the same as train pipeline
+            - x_columns: all               # (list of str) all (default) | list of column names
+              x_columns_to_drop: none      # (list of str) none (default) | list of column names
+              #y_column: TRAIN_LABEL        # (str) a column name
+              #groupkey_columns:            # (list of str) none (default) | list of column names
+              #center_node_column: Lead_No  # (str) a column name
+          ui_args:
+            - x_columns
+            - x_columns_to_drop
+            #- y_column
+            #- groupkey_columns
+            #- center_node_column
 
         - step: inference
           args:
             #- global_xai: False            # (bool), True | False (default)
             - global_xai: True             # (bool), True | False (default)
-              #local_xai: False             # (bool), True | False (default)
-              local_xai: True              # (bool), True | False (default)
+              local_xai: False             # (bool), True | False (default)
+              #local_xai: True              # (bool), True | False (default)
           ui_args:
             - global_xai
             - local_xai
@@ -104,8 +115,8 @@ asset_source:
     - train_pipeline:
         - step: input
           source:  ## git | local 
-            code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/input.git
-            branch: tabular_2.0
+            code: http://mod.lge.com/hub/dxadvtech/assets/input.git
+            branch: v1.0.0_tabular
             requirements:
               - pandas==1.5.3
               - torch==2.0.0
@@ -113,7 +124,7 @@ asset_source:
         - step: readiness
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/readiness.git
-            branch: gcr-0.9.0
+            branch: v2.1.0_gcr
             requirements:
               - pandas==1.5.3
 
@@ -144,16 +155,16 @@ asset_source:
     - inference_pipeline:
         - step: input
           source:  ## git | local
-            # code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/input.git
-            code: local
-            branch: tabular_2.0
+            code: http://mod.lge.com/hub/dxadvtech/assets/input.git
+            branch: v1.0.0_tabular
             requirements:
               - pandas==1.5.3
 
         - step: readiness
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/readiness.git
-            branch: gcr-0.9.0
+            #branch: gcr-0.9.0
+            branch: v2.1.0_gcr
             requirements:
               - pandas==1.5.3
 
@@ -194,27 +205,58 @@ ui_args_detail:
     - train_pipeline:
         - step: input
           args:
+              - name: file_type
+                description: 입력 데이터의 포맷을 지정합니다. 현재 csv만 지원됩니다.
+                type: string
+                default: ''
+                range:
+                  - 1
+                  - 1000000
+              - name: encoding
+                description: 입력 데이터의 인코딩 방식을 지정합니다. 현재 utf-8만 지원됩니다.
+                type: string
+                default: ''
+                range:
+                  - 1
+                  - 1000000
+
+        - step: readiness
+          args:
               - name: x_columns
-                description: GCR 모델링에 사용될 x columns를 ","로 구분하여 기입합니다. ex) x_column1, x_column2
+                description: GCR 모델링에 사용할 x 컬럼들을 기입합니다. ex) x1, x2 또는 모든 x 컬럼들을 지정하려면 all
                 type: string
                 default: ''
                 range:
                   - 1
                   - 1000000
-              - name: use_all_x
-                description: 모든 x columns를 사용할 경우 True로, 아닐 경우 False로 설정합니다.
-                type: single_selection
-                default: True
-                selectable:
-                  - True
-                  - False
+              - name: x_columns_to_drop
+                description: 위 x_columns 중 제외할 컬럼들을 기입합니다. ex) x3, x4 또는 하나도 제외하지 않으려면 none
+                type: string
+                default: ''
+                range:
+                  - 1
+                  - 1000000
               - name: y_column
-                description: GCR 모델링에 사용 될 y column명을 기입합니다. ex) y_column
+                description: GCR 지도학습에 사용 될 라벨 컬럼명을 기입합니다. ex) y
                 type: string
                 default: ''
                 range:
                   - 1
                   - 1000000
+#              - name: groupkey_columns
+#                description: 나누어 추론할 데이터를 구분하는 groupkey 컬럼들을 기입합니다. ex) key1, key2 또는 없으면 none
+#                type: string
+#                default: ''
+#                range:
+#                  - 1
+#                  - 1000000
+#              - name: center_node_column
+#                description: GCR의 graph embedding 시 중심이 될 x 컬럼명을 기입합니다. 보통 고객 등 추론 대상 컬럼입니다.
+#                type: string
+#                default: ''
+#                range:
+#                  - 1
+#                  - 1000000
 
         - step: graph
           args:
@@ -236,7 +278,7 @@ ui_args_detail:
         - step: train
           args:
               - name: task
-                description: 학습 유형을 선택합니다
+                description: classification과 regression 중 하나를 입력합니다.
                 type: single_selection
                 default: classification
                 selectable:
@@ -262,27 +304,58 @@ ui_args_detail:
     - inference_pipeline:
         - step: input
           args:
+              - name: file_type
+                description: 입력 데이터의 포맷을 지정합니다. 현재 csv만 지원됩니다.
+                type: string
+                default: ''
+                range:
+                  - 1
+                  - 1000000
+              - name: encoding
+                description: 입력 데이터의 인코딩 방식을 지정합니다. 현재 utf-8만 지원됩니다.
+                type: string
+                default: ''
+                range:
+                  - 1
+                  - 1000000
+
+        - step: readiness
+          args:
               - name: x_columns
-                description: GCR 모델링에 사용될 x columns를 ","로 구분하여 기입합니다. ex) x_column1, x_column2
+                description: GCR 모델링에 사용할 x 컬럼들을 기입합니다. ex) x1, x2 또는 모든 x 컬럼들을 지정하려면 all
                 type: string
                 default: ''
                 range:
                   - 1
                   - 1000000
-              - name: use_all_x
-                description: 모든 x columns를 사용할 경우 True로, 아닐 경우 False로 설정합니다.
-                type: single_selection
-                default: True
-                selectable:
-                  - True
-                  - False
-              - name: y_column
-                description: GCR 모델링에 사용 될 y column명을 기입합니다. ex) y_column
+              - name: x_columns_to_drop
+                description: 위 x_columns 중 제외할 컬럼들을 기입합니다. ex) x3, x4 또는 하나도 제외하지 않으려면 none
                 type: string
                 default: ''
                 range:
                   - 1
                   - 1000000
+#              - name: y_column
+#                description: GCR 지도학습에 사용 될 라벨 컬럼명을 기입합니다. ex) y
+#                type: string
+#                default: ''
+#                range:
+#                  - 1
+#                  - 1000000
+#              - name: groupkey_columns
+#                description: 나누어 추론할 데이터를 구분하는 groupkey 컬럼들을 기입합니다. ex) key1, key2 또는 없으면 none
+#                type: string
+#                default: ''
+#                range:
+#                  - 1
+#                  - 1000000
+#              - name: center_node_column
+#                description: GCR의 graph embedding 시 중심이 될 x 컬럼명을 기입합니다. 보통 고객 등 추론 대상 컬럼입니다.
+#                type: string
+#                default: ''
+#                range:
+#                  - 1
+#                  - 1000000
 
         - step: inference
           args:
