@@ -1,6 +1,6 @@
 ## load data from external_path
-name: Graph Classification/Regression # GCR 2.0.0
-version: 2.0.0 # Supported from ALO 2.2.0, 2.2.1 and 2.3.0
+#name: Graph Classification/Regression # Supported from ALO 2.3.0
+#version: 2.0.0 # Supported from ALO 2.3.0
 
 external_path:
     - load_train_data_path: ./solution/sample_data/train
@@ -10,7 +10,8 @@ external_path:
     - load_model_path: 
 
 external_path_permission:
-    - aws_key_profile:
+    - s3_private_key_file:
+    #- aws_key_profile: # Supported from ALO 2.3.0
  
 ## Parameter setting for experiment 
 ## 
@@ -176,7 +177,7 @@ control:
     ## 1-2 requirements.txt 및 종속 패키지들 한번만 설치할 지 매번 설치할지도 결정 
     - get_asset_source: once ## once, every
     # TODO 아래 get_external_data 제작하기
-    #- get_external_data: every ## once, every  # Supported until ALO 2.2.1
+    - get_external_data: every ## once, every  # Supported until ALO 2.2.1
     ## 2. 생성된 artifacts 를 backup 할지를 결정 True/False
     - backup_artifacts: True
     ## 3. pipeline 로그를 backup 할지를 결정 True/False
