@@ -1,6 +1,6 @@
 ## load data from external_path
 name: Graph Classification/Regression # GCR 2.1.0
-version: v2.1.0 # Supported from ALO 2.2.1 and 2.3.0
+version: 2.1.0 # Supported from ALO 2.2.1 and 2.3.0
 
 external_path:
     - load_train_data_path: ./solution/sample_data/train
