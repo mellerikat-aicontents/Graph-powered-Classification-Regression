@@ -28,16 +28,14 @@ user_parameters:
         - step: readiness
           args:
             - x_columns: all               # (list of str) all (default) | list of column names
-              x_columns_to_drop: none      # (list of str) none (default) | list of column names
-              y_column: TRAIN_LABEL        # (str) a column name
+              drop_columns: none           # (list of str) none (default) | list of column names
+              y_column: target             # (str) a column name
               #groupkey_columns:            # (list of str) none (default) | list of column names
-              #center_node_column: Lead_No  # (str) a column name
           ui_args:
             - x_columns
-            - x_columns_to_drop
+            - drop_columns
             - y_column
             #- groupkey_columns
-            #- center_node_column
 
         - step: graph
           args:       
@@ -45,6 +43,7 @@ user_parameters:
               #dimension: 64                # (int), 64(default), dimension > 1 & even
               dimension: 32                # (int), 64(default), dimension > 1 & even
               #dimension: 16                # (int), 64(default), dimension > 1 & even
+              #num_epochs: 20               # (int), 10(default)
               num_epochs: 10               # (int), 10(default)
               #num_epochs: 3                # (int), 10(default)
               num_partitions: 1            # (int), 1(default)
@@ -86,16 +85,12 @@ user_parameters:
           args:
             # NOTE - Just check if the x column list is the same as train pipeline
             - x_columns: all               # (list of str) all (default) | list of column names
-              x_columns_to_drop: none      # (list of str) none (default) | list of column names
-              #y_column: TRAIN_LABEL        # (str) a column name
+              drop_columns: none           # (list of str) none (default) | list of column names
               #groupkey_columns:            # (list of str) none (default) | list of column names
-              #center_node_column: Lead_No  # (str) a column name
           ui_args:
             - x_columns
-            - x_columns_to_drop
-            #- y_column
+            - drop_columns
             #- groupkey_columns
-            #- center_node_column
 
         - step: inference
           args:
@@ -163,7 +158,6 @@ asset_source:
         - step: readiness
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/readiness.git
-            #branch: gcr-0.9.0
             branch: v2.1.0_gcr
             requirements:
               - pandas==1.5.3
@@ -180,7 +174,6 @@ asset_source:
         - step: output
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/output.git
-            #code: local
             branch: output_dev
             requirements:
               - requirements.txt
@@ -229,7 +222,7 @@ ui_args_detail:
                 range:
                   - 1
                   - 1000000
-              - name: x_columns_to_drop
+              - name: drop_columns
                 description: 위 x_columns 중 제외할 컬럼들을 기입합니다. ex) x3, x4 또는 하나도 제외하지 않으려면 none
                 type: string
                 default: ''
@@ -245,13 +238,6 @@ ui_args_detail:
                   - 1000000
 #              - name: groupkey_columns
 #                description: 나누어 추론할 데이터를 구분하는 groupkey 컬럼들을 기입합니다. ex) key1, key2 또는 없으면 none
-#                type: string
-#                default: ''
-#                range:
-#                  - 1
-#                  - 1000000
-#              - name: center_node_column
-#                description: GCR의 graph embedding 시 중심이 될 x 컬럼명을 기입합니다. 보통 고객 등 추론 대상 컬럼입니다.
 #                type: string
 #                default: ''
 #                range:
@@ -328,29 +314,15 @@ ui_args_detail:
                 range:
                   - 1
                   - 1000000
-              - name: x_columns_to_drop
+              - name: drop_columns
                 description: 위 x_columns 중 제외할 컬럼들을 기입합니다. ex) x3, x4 또는 하나도 제외하지 않으려면 none
                 type: string
                 default: ''
                 range:
                   - 1
                   - 1000000
-#              - name: y_column
-#                description: GCR 지도학습에 사용 될 라벨 컬럼명을 기입합니다. ex) y
-#                type: string
-#                default: ''
-#                range:
-#                  - 1
-#                  - 1000000
 #              - name: groupkey_columns
 #                description: 나누어 추론할 데이터를 구분하는 groupkey 컬럼들을 기입합니다. ex) key1, key2 또는 없으면 none
-#                type: string
-#                default: ''
-#                range:
-#                  - 1
-#                  - 1000000
-#              - name: center_node_column
-#                description: GCR의 graph embedding 시 중심이 될 x 컬럼명을 기입합니다. 보통 고객 등 추론 대상 컬럼입니다.
 #                type: string
 #                default: ''
 #                range:
