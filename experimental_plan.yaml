@@ -99,7 +99,7 @@ asset_source:
         - step: graph
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/gfe.git
-            branch: feature/dnn
+            branch: release-3.0.0
             requirements:
               - torch==2.0.0
               - requirements.txt
