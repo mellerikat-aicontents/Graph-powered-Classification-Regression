@@ -18,12 +18,20 @@ user_parameters:
     - train_pipeline:
         - step: input
           args:
-            - input_path: train           # (str)
-              x_columns:                  # (list)
-              use_all_x: True             # (bool), True | False
-              y_column: target            # (str) 
-              drop_columns:
-              encoding:                   # (str), utf-8(default) | cp949
+            - file_type: csv               # (str) csv (default) | parquet
+              encoding: utf-8              # (str) utf-8 (default) | euc-kr | utf-16 | ascii | cp949
+              # NOTE - AI advisor supports only csv and utf-8 for now.
+          ui_args:
+            - file_type
+            - encoding
+
+        - step: readiness
+          args:
+            - drop_columns:                # (list of str) none (default) | list of column names
+              y_column: target             # (str) a column name
+          ui_args:
+            - drop_columns
+            - y_column
 
         - step: graph
           args:       
@@ -32,11 +40,16 @@ user_parameters:
               num_partitions:               # (int), 1(default)
               use_gpu:                      # (bool), False(default) | True
         
+          ui_args:
+            - dimension
+            - num_epochs
         - step: train
           args:
             - task:                         # (str), classification(default) | regression
-              epochs: 1                      # (int), 10(default)
-        
+              epochs: 1                     # (int), 10(default)
+        ui_args:
+            - task
+            - epochs
         - step: output
           args:
 
@@ -44,12 +57,19 @@ user_parameters:
     - inference_pipeline:
         - step: input
           args:
-            - input_path: test         # (str)
-              x_columns:               # (list)
-              use_all_x: True          # (bool), True | False 
-              y_column: 
-              drop_columns:
-              encoding:  
+            - file_type: csv               # (str) csv (default) | parquet
+              encoding: utf-8              # (str) utf-8 (default) | euc-kr | utf-16 | ascii | cp949
+              # NOTE - AI advisor supports only csv and utf-8 for now.
+          ui_args:
+            - file_type
+            - encoding 
+
+        - step: readiness
+          args:
+            - drop_columns:                # (list of str) none (default) | list of column names
+              y_column:                    # (str) a column name
+          ui_args:
+            - drop_columns
 
         - step: inference
           args:
@@ -63,25 +83,30 @@ asset_source:
     - train_pipeline:
         - step: input
           source:  ## git | local 
-            code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/input.git
-            # code: local
-            branch: tabular_2.0
+            code: http://mod.lge.com/hub/dxadvtech/assets/input.git
+            branch: v1.0.0_tabular
             requirements:
-              - torch==2.0.0
               - pandas==1.5.3
+              - torch==2.0.0
         
+        - step: readiness
+          source:
+            code: http://mod.lge.com/hub/dxadvtech/assets/readiness.git
+            branch: v3.0.0_gcr
+            requirements:
+              - pandas==1.5.3        
+
         - step: graph
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/gfe.git
-            # code: local
             branch: feature/dnn
             requirements:
+              - torch==2.0.0
               - requirements.txt
 
         - step: train
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/gdnn.git
-            # code: local
             branch: main
             requirements:
               - pandas==1.5.3
@@ -91,7 +116,6 @@ asset_source:
         - step: output
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/output.git
-            # code: local
             branch: output_dev
             requirements:
               - requirements.txt
@@ -101,9 +125,15 @@ asset_source:
     - inference_pipeline:
         - step: input
           source:  ## git | local
-           # code: http://mod.lge.com/hub/smartdata/ml-framework/alov2-module/input.git
             code: local
-            branch: tabular_2.0
+            branch: v1.0.0_tabular
+            requirements:
+              - pandas==1.5.3
+
+        - step: readiness
+          source:
+            code: local
+            branch: v3.0.0_gcr
             requirements:
               - pandas==1.5.3
 
@@ -118,7 +148,6 @@ asset_source:
         
         - step: output
           source:
-            #code: http://mod.lge.com/hub/dxadvtech/assets/output.git
             code: local
             branch: output_dev
             requirements:
@@ -138,4 +167,100 @@ control:
     ## 5. Asset 사이 데이터 전달 방법으로 memory, file 를 지원
     - interface_mode: memory
 
-ui_args_detail: []
+ui_args_detail:
+    - train_pipeline:
+        - step: input
+          args:
+              - name: file_type
+                description: 입력 데이터의 포맷을 지정합니다. 현재 csv만 지원됩니다.
+                type: string
+                default: ''
+                range:
+                  - 1
+                  - 1000000
+              - name: encoding
+                description: 입력 데이터의 인코딩 방식을 지정합니다. 현재 utf-8만 지원됩니다.
+                type: string
+                default: ''
+                range:
+                  - 1
+                  - 1000000
+
+        - step: readiness
+          args:
+              - name: drop_columns
+                description: 학습에서 제외할 컬럼들을 기입합니다. ex) x3, x4 또는 하나도 제외하지 않으려면 none
+                type: string
+                default: ''
+                range:
+                  - 1
+                  - 1000000
+              - name: y_column
+                description: GCR 지도학습에 사용 될 라벨 컬럼명을 기입합니다. ex) y
+                type: string
+                default: ''
+                range:
+                  - 1
+                  - 1000000
+
+        - step: graph
+          args:
+              - name: dimension
+                description: embedding vector의 차원 수를 기입합니다. (dimension>1 & even)
+                type: int
+                default: 64
+                range:
+                  - 2
+                  - 1024
+              - name: num_epochs
+                description: 학습 epoch 수를 기입합니다.
+                type: int
+                default: 10
+                range:
+                  - 1
+                  - 50
+
+        - step: train
+          args:
+              - name: task
+                description: classification과 regression 중 하나를 입력합니다.
+                type: single_selection
+                default: classification
+                selectable:
+                  - classification
+                  - regression
+              - name: epochs
+                description: DNN 학습 시 epoch 수를 선택합니다.
+                type: int
+                default: 10
+                range:
+                  - 1
+                  - 1000
+
+    - inference_pipeline:
+        - step: input
+          args:
+              - name: file_type
+                description: 입력 데이터의 포맷을 지정합니다. 현재 csv만 지원됩니다.
+                type: string
+                default: ''
+                range:
+                  - 1
+                  - 1000000
+              - name: encoding
+                description: 입력 데이터의 인코딩 방식을 지정합니다. 현재 utf-8만 지원됩니다.
+                type: string
+                default: ''
+                range:
+                  - 1
+                  - 1000000
+
+        - step: readiness
+          args:
+              - name: drop_columns
+                description: 학습에서 제외할 컬럼들을 기입합니다. ex) x3, x4 또는 하나도 제외하지 않으려면 none
+                type: string
+                default: ''
+                range:
+                  - 1
+                  - 1000000
