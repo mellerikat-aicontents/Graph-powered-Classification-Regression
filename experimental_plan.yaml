@@ -39,21 +39,21 @@ user_parameters:
               num_epochs: 1                 # (int), 10(default)
               num_partitions:               # (int), 1(default)
               use_gpu:                      # (bool), False(default) | True
-        
           ui_args:
             - dimension
             - num_epochs
+
         - step: train
           args:
             - task:                         # (str), classification(default) | regression
               epochs: 1                     # (int), 10(default)
-        ui_args:
+          ui_args:
             - task
             - epochs
+
         - step: output
           args:
-
-                                                      
+                                    
     - inference_pipeline:
         - step: input
           args:
