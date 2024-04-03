@@ -111,10 +111,11 @@ asset_source:
         - step: input
           source:  ## git | local 
             code: http://mod.lge.com/hub/dxadvtech/assets/input.git
-            branch: v1.0.0_tabular
+            branch: v1.0.1_tabular
             requirements:
               - pandas==1.5.3
               - torch==2.0.0
+              - numpy==1.26.4
         
         - step: readiness
           source:
@@ -151,9 +152,10 @@ asset_source:
         - step: input
           source:  ## git | local
             code: http://mod.lge.com/hub/dxadvtech/assets/input.git
-            branch: v1.0.0_tabular
+            branch: v1.0.1_tabular
             requirements:
               - pandas==1.5.3
+              - numpy==1.26.4
 
         - step: readiness
           source:
