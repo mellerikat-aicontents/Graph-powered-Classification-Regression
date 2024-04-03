@@ -27,8 +27,8 @@ user_parameters:
 
         - step: readiness
           args:
-            - x_columns: all               # (list of str) all (default) | list of column names
-              drop_columns: none           # (list of str) none (default) | list of column names
+            - x_columns:                # (list of str) [''] (default) | list of column names
+              drop_columns:            # (list of str) [''] (default) | list of column names
               y_column: target             # (str) a column name
               #groupkey_columns:            # (list of str) none (default) | list of column names
           ui_args:
@@ -216,14 +216,14 @@ ui_args_detail:
         - step: readiness
           args:
               - name: x_columns
-                description: GCR 모델링에 사용할 x 컬럼들을 기입합니다. ex) x1, x2 또는 모든 x 컬럼들을 지정하려면 all
+                description: GCR 모델링에 사용할 x 컬럼들을 기입합니다. ex) x1, x2 또는 모든 x 컬럼들을 지정하려면 빈칸
                 type: string
                 default: ''
                 range:
                   - 1
                   - 1000000
               - name: drop_columns
-                description: 위 x_columns 중 제외할 컬럼들을 기입합니다. ex) x3, x4 또는 하나도 제외하지 않으려면 none
+                description: 위 x_columns 중 제외할 컬럼들을 기입합니다. ex) x3, x4 또는 하나도 제외하지 않으려면 빈칸
                 type: string
                 default: ''
                 range:
