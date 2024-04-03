@@ -84,8 +84,8 @@ user_parameters:
         - step: readiness
           args:
             # NOTE - Just check if the x column list is the same as train pipeline
-            - x_columns: all               # (list of str) all (default) | list of column names
-              drop_columns: none           # (list of str) none (default) | list of column names
+            - x_columns:                # (list of str) [''] (default) | list of column names
+              drop_columns:            # (list of str) [''] (default) | list of column names
               #groupkey_columns:            # (list of str) none (default) | list of column names
           ui_args:
             - x_columns
