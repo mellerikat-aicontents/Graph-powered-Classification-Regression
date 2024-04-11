@@ -1,6 +1,6 @@
 ## load data from external_path
 name: GCR
-version: 3.0.0
+version: 3.1.0
 
 external_path:
     - load_train_data_path: ./solution/sample_data/train
@@ -81,6 +81,9 @@ user_parameters:
 
         - step: inference
           args:
+            - local_xai:
+          ui_args:
+            - local_xai:
         
         - step: output
           args:
@@ -116,7 +119,7 @@ asset_source:
         - step: train
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/gdnn.git
-            branch: main
+            branch: release-3.1.0
             requirements:
               - pandas==1.5.3
               - torch==2.0.0
@@ -150,7 +153,7 @@ asset_source:
         - step: inference
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/gdnn.git
-            branch: main
+            branch: release-3.1.0
             requirements:
               - pandas==1.5.3
               - torch==2.0.0
