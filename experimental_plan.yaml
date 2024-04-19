@@ -27,41 +27,31 @@ user_parameters:
 
         - step: readiness
           args:
-            - x_columns:                # (list of str) [''] (default) | list of column names
-              drop_columns:            # (list of str) [''] (default) | list of column names
+            - x_columns:                   # (list of str) [''] (default) | list of column names
+              drop_columns:                # (list of str) [''] (default) | list of column names
               y_column: target             # (str) a column name
-              #groupkey_columns:            # (list of str) none (default) | list of column names
+              #groupkey_columns:            # (lsit of str) [''] (default) | list of column names
           ui_args:
             - x_columns
             - drop_columns
             - y_column
-            #- groupkey_columns
 
         - step: graph
           args:       
-            - 
-              #dimension: 64                # (int), 64(default), dimension > 1 & even
-              dimension: 32                # (int), 64(default), dimension > 1 & even
-              #dimension: 16                # (int), 64(default), dimension > 1 & even
-              #num_epochs: 20               # (int), 10(default)
+            - dimension: 32                # (int), 32(default), dimension > 1 & even
               num_epochs: 10               # (int), 10(default)
-              #num_epochs: 3                # (int), 10(default)
               num_partitions: 1            # (int), 1(default)
               use_gpu: False               # (bool), False(default) | True
           ui_args:
             - dimension
             - num_epochs
+            - num_partitions
         
         - step: train
           args:
             - task: classification         # (str), classification(default) | regression
               eval_metric: f1_score        # (str), accuracy | precision | recall | f1_score (default) | rmse (regression)
-              #eval_metric: accuracy        # (str), accuracy | precision | recall | f1_score (default) | rmse (regression)
-              #eval_metric: precision       # (str), accuracy | precision | recall | f1_score (default) | rmse (regression)
-              #eval_metric: recall          # (str), accuracy | precision | recall | f1_score (default) | rmse (regression)
-              #num_hpo: 20                  # (int), 20(default)
-              num_hpo: 10                  # (int), 20(default)
-              #num_hpo: 3                   # (int), 20(default)
+              num_hpo: 20                  # (int), 20(default)
 
           ui_args:
             - task
@@ -84,20 +74,18 @@ user_parameters:
         - step: readiness
           args:
             # NOTE - Just check if the x column list is the same as train pipeline
-            - x_columns:                # (list of str) [''] (default) | list of column names
-              drop_columns:            # (list of str) [''] (default) | list of column names
-              #groupkey_columns:            # (list of str) none (default) | list of column names
+            - x_columns:                   # (list of str) [''] (default) | list of column names
+              drop_columns:                # (list of str) [''] (default) | list of column names
+              #groupkey_columns:            # (lsit of str) [''] (default) | list of column names
           ui_args:
             - x_columns
             - drop_columns
-            #- groupkey_columns
 
         - step: inference
           args:
-            #- global_xai: False            # (bool), True | False (default)
             - global_xai: True             # (bool), True | False (default)
               local_xai: False             # (bool), True | False (default)
-              #local_xai: True              # (bool), True | False (default)
+
           ui_args:
             - global_xai
             - local_xai
@@ -261,7 +249,14 @@ ui_args_detail:
                 default: 10
                 range:
                   - 1
-                  - 30
+                  - 100
+              - name: num_partitions
+                description: 전체 데이터를 몇 개로 나누어 embedding할지 기입합니다.
+                type: int
+                default: 1
+                range:
+                  - 1
+                  - 512
 
         - step: train
           args:
