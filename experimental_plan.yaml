@@ -83,7 +83,7 @@ user_parameters:
           args:
             - local_xai:
           ui_args:
-            - local_xai:
+            - local_xai
         
         - step: output
           args:
