@@ -71,7 +71,7 @@ AI solution 개발을 위한 가상환경을 만들어 줍니다 (예를 들어 
 \$ git clone http://mod.lge.com/hub/dxadvtech/aicontents/gcr.git solution   
 <br />
 
-GCR version 2.0.0이 올바로 설치되었는지 확인합니다.   
+GCR version 3.1.0이 올바로 설치되었는지 확인합니다.   
 <br />
 
 \$ cd solution   
