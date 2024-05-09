@@ -51,10 +51,12 @@ user_parameters:
             - task:                         # (str), classification(default) | regression
               epochs: 1                     # (int), 10(default)
               k_folds:                      # (int), 3(default)
+              num_hpo:                      # (int), 5(default)
           ui_args:
             - task
             - epochs
             - k_folds
+            - num_hpo
 
         - step: output
           args:
@@ -264,6 +266,14 @@ ui_args_detail:
                 range:
                   - 1
                   - 10
+
+              - name: num_hpo
+                description: HPO을 위한 trial 수를 선택합니다.
+                type: int
+                default: 5
+                range:
+                  - 1
+                  - 100
 
     - inference_pipeline:
         - step: input
