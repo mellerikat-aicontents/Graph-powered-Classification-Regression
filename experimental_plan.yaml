@@ -27,11 +27,12 @@ user_parameters:
 
         - step: readiness
           args:
-            - x_columns:                   # (list of str) [''] (default) | list of column names
-              #drop_columns:                # (list of str) [''] (default) | list of column names
+            - 
+              x_columns:                   # (list of str) [''] (default) | list of column names
+              #x_columns: [bant_submit, Budget_indexing, Business_Unit, com_reg_ver_win_rate, customer_history, customer_type, Customer_Type, enterprise, historical_existing_cnt, idit_strategic_ver, id_strategic_ver, it_strategic_ver, Job_indexing, Lead_Channel_Type_indexing, lead_desc_length, Needs_indexing, prefer_ver_count, prefer_ver_mean, Processed_Needs, Region, Seniority, Subsidiary, Timeline_indexing, Title_indexing, ver_cus, ver_pro, Vertical_Level_1, ver_win_rate_mean_upper, ver_win_rate_x, ver_win_ratio_per_bu]
               drop_columns:                # (list of str) [''] (default) | list of column names
-              y_column: target             # (str) a column name
-              #groupkey_columns:            # (lsit of str) [''] (default) | list of column names
+              #drop_columns: Lead_No        # (list of str) [''] (default) | list of column names
+              y_column: label              # (str) a column name
           ui_args:
             - x_columns
             - drop_columns
@@ -41,16 +42,13 @@ user_parameters:
           args:       
             - 
               dimension: 32                # (int), 32(default), dimension > 1 & even
-              #num_epochs: 20               # (int), 10(default)
+              #dimension: 16                # (int), 32(default), dimension > 1 & even
               num_epochs: 10               # (int), 10(default)
               num_partitions: 1            # (int), 1(default)
+              #num_partitions: 2            # (int), 1(default)
               use_gpu: False               # (bool), False(default) | True
-              #custom_connection_lhs: [virtual_label]
-              #custom_connection_rhs: [Seniority]
-              #custom_connection_lhs: [Timeline_indexing, Title_indexing]
-              #custom_connection_rhs: [Needs_indexing, Budget_indexing]
-              #custom_connection_lhs: [virtual_label, virtual_label, virtual_label, virtual_label]
-              #custom_connection_rhs: [Timeline_indexing, Title_indexing, Needs_indexing, Budget_indexing]
+              #custom_connection_lhs: [Region]
+              #custom_connection_rhs: [Vertical_Level_1]
           ui_args:
             - dimension
             - num_epochs
@@ -59,13 +57,13 @@ user_parameters:
         - step: train
           args:
             - task: classification         # (str), classification(default) | regression
-              #eval_metric: f1_score        # (str), accuracy | precision | recall | f1_score (default) | fbeta_score | rmse (regression)
-              eval_metric: accuarcy        # (str), accuracy | precision | recall | f1_score (default) | fbeta_score | rmse (regression)
+              # (str), accuracy | precision | recall | f1_score (default) | fbeta_score | rmse (regression)
+              eval_metric: f1_score
+              #eval_metric: fbeta_score
               fbeta: 0.5                   # (float), 0 < fbeta < inf
               target_label:                # (str, int, float), A value of any type or Empty for all labels
               #target_label: 1              # (str, int, float), A value of any type or Empty for all labels
-              #num_hpo: 20                  # (int), 20(default)
-              num_hpo: 10                  # (int), 20(default)
+              num_hpo: 20                  # (int), 20(default)
 
           ui_args:
             - task
@@ -88,8 +86,11 @@ user_parameters:
         - step: readiness
           args:
             # NOTE - Just check if the x column list is the same as train pipeline
-            - x_columns:                   # (list of str) [''] (default) | list of column names
-              drop_columns:                # (list of str) [''] (default) | list of column names
+            - 
+              x_columns:                   # (list of str) [''] (default) | list of column names
+              #x_columns: [com_reg_ver_win_rate, Subsidiary, Job_indexing, prefer_ver_mean, ver_win_ratio_per_bu, prefer_ver_count, Lead_Channel_Type_indexing, Seniority, Processed_Needs, Title_indexing, Vertical_Level_1, ver_win_rate_x]
+              #drop_columns:                       # (list of str) [''] (default) | list of column names
+              drop_columns: Lead_No               # (list of str) [''] (default) | list of column names
               #groupkey_columns:            # (lsit of str) [''] (default) | list of column names
           ui_args:
             - x_columns
