@@ -49,6 +49,8 @@ user_parameters:
               use_gpu: False               # (bool), False(default) | True
               #custom_connection_lhs: [Region]
               #custom_connection_rhs: [Vertical_Level_1]
+              #custom_connection_lhs: [bant_submit, Budget_indexing, Business_Unit, customer_history, customer_type, Customer_Type, enterprise, historical_existing_cnt, idit_strategic_ver, id_strategic_ver, it_strategic_ver, Job_indexing, Lead_Channel_Type_indexing, lead_desc_length, Lead_No, Needs_indexing, prefer_ver_count, prefer_ver_mean, Processed_Needs, Region, Seniority, Subsidiary, Timeline_indexing, Title_indexing, ver_cus, ver_pro, Vertical_Level_1, ver_win_rate_mean_upper, ver_win_rate_x, ver_win_ratio_per_bu]
+              #custom_connection_rhs: [com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate, com_reg_ver_win_rate]
           ui_args:
             - dimension
             - num_epochs
