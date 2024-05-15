@@ -49,9 +49,9 @@ user_parameters:
         - step: train
           args:
             - task:                         # (str), classification(default) | regression
-              epochs: 1                     # (int), 10(default)
+              epochs: 1                     # (int), 30(default)
               k_folds:                      # (int), 3(default)
-              num_hpo:                      # (int), 5(default)
+              num_hpo: 2                     # (int), 20(default)
           ui_args:
             - task
             - epochs
