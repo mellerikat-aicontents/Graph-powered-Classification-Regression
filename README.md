@@ -37,21 +37,21 @@
 <br />
 
 이 때, 사용할 GCR version에 맞는 ALO version 설치가 필요합니다.   
-GCR 2.1.0을 사용하기 위해서는 ALO version 2.3.2를 설치합니다.   
+GCR 2.2.0을 사용하기 위해서는 ALO version 2.3.3를 설치합니다.   
 <br />
 
-작업 directory를 준비합니다 (여기에서는 예를 들어 aisolution_gcr_2.1.0이라는 directory를 생성합니다).   
+작업 directory를 준비합니다 (여기에서는 예를 들어 aisolution_gcr_2.2.0이라는 directory를 생성합니다).   
 <br />
 
-\$ mkdir aisolution_gcr_2.1.0   
-\$ cd aisolution_gcr_2.1.0   
+\$ mkdir aisolution_gcr_2.2.0   
+\$ cd aisolution_gcr_2.2.0   
 <br />
 
 AI solution name (예를 들어 gcr_solution)으로 ALO를 설치합니다.   
 이러면 gcr_solution이라는 directory가 생기고 그 안에 GCR을 설치하게 됩니다 (GCR 기반 AI solution 작업도 그곳에서 진행합니다).
 <br />
 
-\$ git clone http://mod.lge.com/hub/dxadvtech/aicontents-framework/alo.git -b v2.3.2 gcr_solution   
+\$ git clone http://mod.lge.com/hub/dxadvtech/aicontents-framework/alo.git -b v2.3.3 gcr_solution   
 \$ cd gcr_solution   
 <br />
 
@@ -66,31 +66,31 @@ AI solution 개발을 위한 가상환경을 만들어 줍니다 (예를 들어 
 \$ pip install -r requirements.txt   
 <br />
 
-+ ***ALO 설치가 완료되었으면, GCR 2.1.0을 설치합니다.***   
++ ***ALO 설치가 완료되었으면, GCR 2.2.0을 설치합니다.***   
 <br />
 
 \$ git clone http://mod.lge.com/hub/dxadvtech/aicontents/gcr.git solution   
 <br />
 
-GCR version 2.1.0이 올바로 설치되었는지 확인합니다.   
+GCR version 2.2.0이 올바로 설치되었는지 확인합니다.   
 <br />
 
 \$ cd solution   
-\$ git status => 결과가 'On branch release-2.1.0'이 맞는 지 확인합니다.   
+\$ git status => 결과가 'On branch release-2.2.0'이 맞는 지 확인합니다.   
 <br />
 
-만일 다른 version이 설치되었다면, release-2.1.0을 다시 설치합니다.   
+만일 다른 version이 설치되었다면, release-2.2.0을 다시 설치합니다.   
 <br />
 
 \$ cd ..   
 \$ \rm -rf solution   
-\$ git clone -b release-2.1.0 --single-branch http://mod.lge.com/hub/dxadvtech/aicontents/gcr.git solution   
+\$ git clone -b release-2.2.0 --single-branch http://mod.lge.com/hub/dxadvtech/aicontents/gcr.git solution   
 <br />
 
 Default로 제공되는 sample data 대신 다른 data를 이용하려면 아래와 같이 experimental_plan.yaml을 수정합니다.   
 <br />
 
-\$ vi aisolution_gcr_2.1.0/gcr_solution/solution/experimental_plan.yaml   
+\$ vi aisolution_gcr_2.2.0/gcr_solution/solution/experimental_plan.yaml   
 <br />
 
 external_path의 load_train_data_path에 아래와 같이 사용할 데이터의 경로(디렉토리)를 입력합니다.   
@@ -122,7 +122,7 @@ external_path의 load_train_data_path에 아래와 같이 사용할 데이터의
 여기서 주어진 문제를 위해 input과 output asset들이 customized되어 있다면 이것이 곧 GCR 기반의 AI solution입니다.     
 <br />
 
-\$ cd aisolution_gcr_2.1.0/gcr_solution   
+\$ cd aisolution_gcr_2.2.0/gcr_solution   
 \$ python main.py                    -> train/inference pipeline 일괄 수행   
 \$ python main.py --mode train       -> train pipeline 수행    
 \$ python main.py --mode inference   -> inference pipeline 수행   
