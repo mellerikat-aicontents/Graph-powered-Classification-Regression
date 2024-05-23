@@ -140,7 +140,7 @@ asset_source:
         - step: train
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/gdt.git
-            branch: release-1.0.0
+            branch: release-2.3.0
             requirements:
               - pandas==1.5.3
               - torch==2.0.0
@@ -172,7 +172,7 @@ asset_source:
         - step: inference
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/gdt.git
-            branch: release-1.0.0
+            branch: release-2.3.0
             requirements:
               - pandas==1.5.3
               - torch==2.0.0
