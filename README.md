@@ -37,14 +37,14 @@
 <br />
 
 이 때, 사용할 GCR version에 맞는 ALO version 설치가 필요합니다.   
-GCR 2.2.0을 사용하기 위해서는 ALO version 2.3.3를 설치합니다.   
+GCR 2.3.0을 사용하기 위해서는 ALO version 2.3.3를 설치합니다.   
 <br />
 
-작업 directory를 준비합니다 (여기에서는 예를 들어 aisolution_gcr_2.2.0이라는 directory를 생성합니다).   
+작업 directory를 준비합니다 (여기에서는 예를 들어 aisolution_gcr_2.3.0이라는 directory를 생성합니다).   
 <br />
 
-\$ mkdir aisolution_gcr_2.2.0   
-\$ cd aisolution_gcr_2.2.0   
+\$ mkdir aisolution_gcr_2.3.0   
+\$ cd aisolution_gcr_2.3.0   
 <br />
 
 AI solution name (예를 들어 gcr_solution)으로 ALO를 설치합니다.   
@@ -90,7 +90,7 @@ GCR version 2.2.0이 올바로 설치되었는지 확인합니다.
 Default로 제공되는 sample data 대신 다른 data를 이용하려면 아래와 같이 experimental_plan.yaml을 수정합니다.   
 <br />
 
-\$ vi aisolution_gcr_2.2.0/gcr_solution/solution/experimental_plan.yaml   
+\$ vi aisolution_gcr_2.3.0/gcr_solution/solution/experimental_plan.yaml   
 <br />
 
 external_path의 load_train_data_path에 아래와 같이 사용할 데이터의 경로(디렉토리)를 입력합니다.   
@@ -122,7 +122,7 @@ external_path의 load_train_data_path에 아래와 같이 사용할 데이터의
 여기서 주어진 문제를 위해 input과 output asset들이 customized되어 있다면 이것이 곧 GCR 기반의 AI solution입니다.     
 <br />
 
-\$ cd aisolution_gcr_2.2.0/gcr_solution   
+\$ cd aisolution_gcr_2.3.0/gcr_solution   
 \$ python main.py                    -> train/inference pipeline 일괄 수행   
 \$ python main.py --mode train       -> train pipeline 수행    
 \$ python main.py --mode inference   -> inference pipeline 수행   

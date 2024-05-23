@@ -1,6 +1,6 @@
 ## load data from external_path
 name: GCR
-version: 2.2.0
+version: 2.3.0
 
 external_path:
     - load_train_data_path: ./solution/sample_data/train
@@ -27,9 +27,11 @@ user_parameters:
 
         - step: readiness
           args:
-            - x_columns:                   # (list of str) [''] (default) | list of column names
+            - 
+              x_columns:                   # (list of str) [''] (default) | list of column names
               drop_columns:                # (list of str) [''] (default) | list of column names
-              y_column: target             # (str) a column name
+              y_column: label              # (str) a column name
+              #groupkey_columns:            # (lsit of str) [''] (default) | list of column names
           ui_args:
             - x_columns
             - drop_columns
@@ -38,10 +40,15 @@ user_parameters:
         - step: graph
           args:       
             - 
-              dimension: 32                # (int), 32(default), dimension > 1 & even
+              dimension: 16                # (int), 32(default), dimension > 1 & even
               num_epochs: 10               # (int), 10(default)
-              num_partitions: 1            # (int), 1(default)
+              num_partitions: 4            # (int), 1(default)
               use_gpu: False               # (bool), False(default) | True
+              #custom_connection_lhs: [virtual_label, virtual_label]
+              #custom_connection_rhs: [Vertical_Level_1, Processed_Needs]
+              #custom_connection_rhs: [Seniority]
+              #custom_connection_lhs: [Region]
+              #custom_connection_rhs: [Vertical_Level_1]
           ui_args:
             - dimension
             - num_epochs
@@ -49,8 +56,13 @@ user_parameters:
         
         - step: train
           args:
-            - task: classification         # (str), classification(default) | regression
-              eval_metric: accuarcy        # (str), accuracy | precision | recall | f1_score (default) | fbeta_score | rmse (regression)
+            - 
+              task: classification         # (str), classification(default) | regression
+              #task: regression             # (str), classification(default) | regression
+              #eval_metric: f1_score        # (str), accuracy | precision | recall | f1_score (default) | fbeta_score | rmse (regression)
+              eval_metric: accuracy        # (str), accuracy | precision | recall | f1_score (default) | fbeta_score | rmse (regression)
+              #eval_metric: fbeta_score     # (str), accuracy | precision | recall | f1_score (default) | fbeta_score | rmse (regression)
+              #eval_metric: rmse            # (str), accuracy | precision | recall | f1_score (default) | fbeta_score | rmse (regression)
               fbeta: 0.5                   # (float), 0 < fbeta < inf
               target_label:                # (str, int, float), A value of any type or Empty for all labels
               #target_label: 1              # (str, int, float), A value of any type or Empty for all labels
@@ -77,8 +89,10 @@ user_parameters:
         - step: readiness
           args:
             # NOTE - Just check if the x column list is the same as train pipeline
-            - x_columns:                   # (list of str) [''] (default) | list of column names
+            - 
+              x_columns:                   # (list of str) [''] (default) | list of column names
               drop_columns:                # (list of str) [''] (default) | list of column names
+              #groupkey_columns:            # (lsit of str) [''] (default) | list of column names
           ui_args:
             - x_columns
             - drop_columns
@@ -86,6 +100,7 @@ user_parameters:
         - step: inference
           args:
             - global_xai: True             # (bool), True | False (default)
+              #local_xai: True              # (bool), True | False (default)
               local_xai: False             # (bool), True | False (default)
 
           ui_args:
@@ -117,7 +132,7 @@ asset_source:
         - step: graph
           source:
             code: http://mod.lge.com/hub/dxadvtech/assets/gfe.git
-            branch: release-2.2.0
+            branch: release-2.3.0
             requirements:
               - torch==2.0.0
               - requirements.txt
