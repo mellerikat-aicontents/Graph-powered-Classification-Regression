@@ -40,15 +40,10 @@ user_parameters:
         - step: graph
           args:       
             - 
-              dimension: 16                # (int), 32(default), dimension > 1 & even
-              num_epochs: 10               # (int), 10(default)
-              num_partitions: 4            # (int), 1(default)
+              dimension: 8                 # (int), 32(default), dimension > 1 & even
+              num_epochs: 5                # (int), 10(default)
+              num_partitions: 1            # (int), 1(default)
               use_gpu: False               # (bool), False(default) | True
-              #custom_connection_lhs: [virtual_label, virtual_label]
-              #custom_connection_rhs: [Vertical_Level_1, Processed_Needs]
-              #custom_connection_rhs: [Seniority]
-              #custom_connection_lhs: [Region]
-              #custom_connection_rhs: [Vertical_Level_1]
           ui_args:
             - dimension
             - num_epochs
