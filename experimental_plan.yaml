@@ -40,7 +40,7 @@ user_parameters:
         - step: graph
           args:       
             - 
-              dimension: 8                 # (int), 32(default), dimension > 1 & even
+              dimension: 16                # (int), 32(default), dimension > 1 & even
               num_epochs: 5                # (int), 10(default)
               num_partitions: 1            # (int), 1(default)
               use_gpu: False               # (bool), False(default) | True
