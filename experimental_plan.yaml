@@ -139,6 +139,7 @@ asset_source:
             requirements:
               - pandas==1.5.3
               - torch==2.0.0
+              - imblearn==0.0
               - requirements.txt
         
         - step: output
