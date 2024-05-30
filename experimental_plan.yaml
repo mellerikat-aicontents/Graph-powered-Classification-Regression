@@ -38,8 +38,8 @@ user_parameters:
 
         - step: graph
           args:       
-            - dimension: 4                # (int), 64(default), dimension > 1 & even
-              num_epochs: 1                 # (int), 10(default)
+            - dimension: 16                # (int), 64(default), dimension > 1 & even
+              num_epochs: 5                 # (int), 10(default)
               num_partitions:               # (int), 1(default)
               use_gpu:                      # (bool), False(default) | True
           ui_args:
@@ -49,9 +49,9 @@ user_parameters:
         - step: train
           args:
             - task:                         # (str), classification(default) | regression
-              epochs: 1                     # (int), 30(default)
+              epochs: 30                     # (int), 30(default)
               k_folds:                      # (int), 3(default)
-              num_hpo: 2                     # (int), 20(default)
+              num_hpo: 10                     # (int), 20(default)
           ui_args:
             - task
             - epochs
