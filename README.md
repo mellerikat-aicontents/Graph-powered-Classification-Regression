@@ -1,6 +1,6 @@
 # Welcome to GCR !
 
-Graph Classification Regression(GCR)는 정형 데이터를 그래프로 변환하여 추출한 임베딩을 활용하여 분류/회귀 솔루션에 적용할 수 있는 컨텐츠입니다.
+Graph Classification Regression (GCR) is a technology that provides a method to solve classification or regression problems by converting structured data into graph form and using the embeddings extracted from it. Through this, it is possible to understand and analyze complex data structures more effectively.
 
 <BR/>
 
