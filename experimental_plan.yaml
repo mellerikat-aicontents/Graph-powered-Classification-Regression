@@ -96,7 +96,7 @@ asset_source:
     - train_pipeline:
         - step: input
           source:  ## git | local 
-            code: http://mod.lge.com/hub/dxadvtech/assets/input.git
+            code: https://github.com/mellerikat-aicontents/input.git
             branch: v1.0.1_tabular
             requirements:
               - pandas==1.5.3
@@ -105,14 +105,14 @@ asset_source:
         
         - step: readiness
           source:
-            code: http://mod.lge.com/hub/dxadvtech/assets/readiness.git
+            code: https://github.com/mellerikat-aicontents/readiness.git
             branch: v3.0.0_gcr
             requirements:
               - pandas==1.5.3        
 
         - step: graph
           source:
-            code: http://mod.lge.com/hub/dxadvtech/assets/gfe.git
+            code: https://github.com/mellerikat-aicontents/graph_embedding.git
             branch: release-3.0.0
             requirements:
               - torch==2.0.0
@@ -120,7 +120,7 @@ asset_source:
 
         - step: train
           source:
-            code: http://mod.lge.com/hub/dxadvtech/assets/gdnn.git
+            code: https://github.com/mellerikat-aicontents/gcr_modeling.git
             branch: release-3.1.0
             requirements:
               - pandas==1.5.3
@@ -129,7 +129,7 @@ asset_source:
         
         - step: output
           source:
-            code: http://mod.lge.com/hub/dxadvtech/assets/output.git
+            code: https://github.com/mellerikat-aicontents/output.git
             branch: output_dev
             requirements:
               - requirements.txt
@@ -139,7 +139,7 @@ asset_source:
     - inference_pipeline:
         - step: input
           source:  ## git | local
-            code: http://mod.lge.com/hub/dxadvtech/assets/input.git
+            code: https://github.com/mellerikat-aicontents/input.git
             branch: v1.0.1_tabular
             requirements:
               - pandas==1.5.3
@@ -154,7 +154,7 @@ asset_source:
 
         - step: inference
           source:
-            code: http://mod.lge.com/hub/dxadvtech/assets/gdnn.git
+            code: https://github.com/mellerikat-aicontents/gcr_modeling.git
             branch: release-3.1.0
             requirements:
               - pandas==1.5.3
